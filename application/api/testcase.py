@@ -12,12 +12,11 @@ from application.common.response import (STATUS_CREATED, STATUS_SERVER_ERROR,
                                          STATUS_BAD_REQUEST)
 from application.common.response import api_response
 from application.common.runbysuiteid import run_by_suite_id, \
-    execute_external_job
+    execute_external_job, create_job
 from application.common.token import (token_required)
 from application.common.utils import (get_table_name,
                                       db_details_without_password)
-from application.helper.runnerclass import (run_by_case_id,
-                                            save_case_log_information)
+from application.helper.runnerclass import (save_case_log_information)
 from application.helper.runnerclasshelpers import (
     save_case_log,
     save_job_status)
@@ -55,7 +54,9 @@ class TestCaseJob(Resource):
             execution_data = parser.parse_args()
 
             if execution_data['suite_id'] and not (execution_data['case_id']):
-                run_by_suite_id(user_id, execution_data['suite_id'])
+                # run_by_suite_id(user_id, execution_data['suite_id'])
+                create_job(user_id, execution_data['suite_id'])
+
                 suite_data = {"suite_id": execution_data['suite_id']}
                 return api_response(True, APIMessages.RETURN_SUCCESS,
                                     STATUS_CREATED,
@@ -63,7 +64,8 @@ class TestCaseJob(Resource):
 
             elif not (execution_data['suite_id']) \
                     and execution_data['case_id']:
-                run_by_case_id(execution_data['case_id'], user_id)
+                # run_by_case_id(execution_data['case_id'], user_id)
+                create_job(user_id, execution_data['suite_id'])
                 case_data = {"case_id": execution_data["case_id"]}
                 return api_response(True, APIMessages.RETURN_SUCCESS,
                                     STATUS_CREATED,
