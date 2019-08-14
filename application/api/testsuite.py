@@ -32,31 +32,43 @@ class TestSuiteAPI(Resource):
 
         Returns: Add suite to Database
         """
-        parser = reqparse.RequestParser()
-        parser.add_argument('sheet_name',
-                            help=APIMessages.PARSER_MESSAGE,
-                            required=True, type=str)
-        parser.add_argument('case_id_list',
-                            help=APIMessages.PARSER_MESSAGE,
-                            required=True, type=args_as_list, default=[])
-        parser.add_argument('suite_name',
-                            help=APIMessages.PARSER_MESSAGE,
-                            required=True, type=str)
-        parser.add_argument('upload_and_execute',
-                            help=APIMessages.PARSER_MESSAGE,
-                            required=True)
-        parser.add_argument('project_id',
-                            help=APIMessages.PARSER_MESSAGE,
-                            required=True)
-        test_suite_data = parser.parse_args()
-        current_user = session.user_id
-        file = request.files['inputFile']
-        suite_result = save_file_to_db(current_user,
-                                       test_suite_data['project_id'],
-                                       test_suite_data, file)
-        if int(test_suite_data['upload_and_execute']) == 1:
-            create_job(current_user, suite_result['Suite'].test_suite_id)
-        return api_response(True, APIMessages.ADD_DATA, STATUS_CREATED)
+        try:
+
+            parser = reqparse.RequestParser()
+            parser.add_argument('sheet_name',
+                                help=APIMessages.PARSER_MESSAGE,
+                                required=True, type=str)
+            parser.add_argument('case_id_list',
+                                help=APIMessages.PARSER_MESSAGE,
+                                required=True, type=args_as_list, default=[])
+            parser.add_argument('suite_name',
+                                help=APIMessages.PARSER_MESSAGE,
+                                required=True, type=str)
+            parser.add_argument('upload_and_execute',
+                                help=APIMessages.PARSER_MESSAGE,
+                                required=True)
+            parser.add_argument('project_id',
+                                help=APIMessages.PARSER_MESSAGE,
+                                required=True)
+            test_suite_data = parser.parse_args()
+            current_user = session.user_id
+            file = request.files['inputFile']
+            project_obj = Project.query.filter_by(
+                project_id=test_suite_data['project_id']).first()
+            if not project_obj:
+                return api_response(False, APIMessages.PROJECT_NOT_EXIST,
+                                    STATUS_SERVER_ERROR)
+            suite_result = save_file_to_db(current_user,
+                                           test_suite_data['project_id'],
+                                           test_suite_data, file)
+            if int(test_suite_data['upload_and_execute']) == 1:
+                create_job(current_user, suite_result['Suite'].test_suite_id,
+                           False)
+            return api_response(True, APIMessages.ADD_DATA, STATUS_CREATED)
+        except Exception as e:
+            return api_response(False,
+                                str(e),
+                                STATUS_SERVER_ERROR)
 
     @token_required
     def get(self, session):
