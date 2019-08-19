@@ -1,9 +1,10 @@
 import ast
-
 from flask import current_app as app
+from flask import json
 from flask import request
 from flask_restful import Resource, reqparse
 from sqlalchemy.exc import SQLAlchemyError
+from werkzeug.exceptions import HTTPException
 
 from application.common.constants import (APIMessages, ExecutionStatus,
                                           SupportedTestClass, SupportedDBType)
@@ -22,6 +23,7 @@ from application.helper.runnerclasshelpers import (
     save_case_log)
 from application.model.models import (TestCaseLog, TestCase, DbConnection,
                                       PersonalToken, TestSuite)
+from index import app
 from index import db
 
 
@@ -44,51 +46,68 @@ class TestCaseJob(Resource):
 
         Returns: Return api response ,either successful job run or error.
         """
-        try:
-            user_id = session.user_id
-            parser = reqparse.RequestParser()
-            parser.add_argument('suite_id', type=int, required=False,
-                                help=APIMessages.PARSER_MESSAGE)
-            parser.add_argument('case_id_list',
-                                type=list, location="json",
-                                help=APIMessages.PARSER_MESSAGE)
-            execution_data = parser.parse_args()
-            is_external = False
-            if execution_data['suite_id']:
-                test_suite_obj = TestSuite.query.filter_by(
-                    test_suite_id=int(execution_data['suite_id'])).first()
-                if not test_suite_obj:
-                    return api_response(False, APIMessages.SUITE_NOT_EXIST,
-                                        STATUS_SERVER_ERROR)
-                # Create a Job
-                create_job(user_id, test_suite_obj, is_external)
-                return api_response(True, APIMessages.RETURN_SUCCESS,
-                                    STATUS_CREATED)
-
-            elif execution_data['case_id_list']:
-                test_case_obj = TestCase.query.filter_by(
-                    test_case_id=execution_data['case_id_list'][0]).first()
-                if not test_case_obj:
-                    return api_response(False,
-                                        APIMessages.TEST_CASE_NOT_IN_DB,
-                                        STATUS_SERVER_ERROR)
-                test_suite_id = test_case_obj.test_suite_id
-                test_suite_obj = TestSuite.query.filter_by(
-                    test_suite_id=test_suite_id).first()
-                # Create a Job
-                create_job(user_id, test_suite_obj, is_external,
-                           execution_data['case_id_list'])
-                return api_response(True, APIMessages.RETURN_SUCCESS,
-                                    STATUS_CREATED
-                                    )
-            else:
-                return api_response(False, APIMessages.INTERNAL_ERROR,
+        # try:
+        user_id = session.user_id
+        parser = reqparse.RequestParser()
+        parser.add_argument('suite_id', type=int, required=False,
+                            help=APIMessages.PARSER_MESSAGE)
+        parser.add_argument('case_id_list',
+                            type=list, location="json",
+                            help=APIMessages.PARSER_MESSAGE)
+        execution_data = parser.parse_args()
+        is_external = False
+        if execution_data['suite_id']:
+            test_suite_obj = TestSuite.query.filter_by(
+                test_suite_id=int(execution_data['suite_id'])).first()
+            if not test_suite_obj:
+                return api_response(False, APIMessages.SUITE_NOT_EXIST,
                                     STATUS_SERVER_ERROR)
+            # Create a Job
+            create_job(user_id, test_suite_obj, is_external)
+            return api_response(True, APIMessages.RETURN_SUCCESS,
+                                STATUS_CREATED)
 
-        except Exception as e:
-            app.logger.error(e)
+        elif execution_data['case_id_list']:
+            test_case_obj = TestCase.query.filter_by(
+                test_case_id=execution_data['case_id_list'][0]).first()
+            if not test_case_obj:
+                return api_response(False,
+                                    APIMessages.TEST_CASE_NOT_IN_DB,
+                                    STATUS_SERVER_ERROR)
+            test_suite_id = test_case_obj.test_suite_id
+            test_suite_obj = TestSuite.query.filter_by(
+                test_suite_id=test_suite_id).first()
+            # Create a Job
+            create_job(user_id, test_suite_obj, is_external,
+                       execution_data['case_id_list'])
+            return api_response(True, APIMessages.RETURN_SUCCESS,
+                                STATUS_CREATED
+                                )
+        else:
             return api_response(False, APIMessages.INTERNAL_ERROR,
                                 STATUS_SERVER_ERROR)
+
+        # except Exception as e:
+        #     app.logger.error(e)
+        #     return api_response(False, APIMessages.INTERNAL_ERROR,
+        #                         STATUS_SERVER_ERROR)
+
+
+with app.app_context():
+    @app.errorhandler(HTTPException)
+    def handle_exception(e):
+        """Return JSON instead of HTML for HTTP errors."""
+        # start with the correct headers and status code from the error
+        response = e.get_response()
+        # replace the body with JSON
+        response.data = json.dumps({
+            "code": e.code,
+            "name": e.name,
+            "description": e.description,
+            'code': 'akhil'
+        })
+        response.content_type = "application/json"
+        return response
 
 
 class TestCaseSparkJob(Resource):
