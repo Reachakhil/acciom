@@ -1,17 +1,19 @@
-from flask_restful import Resource, reqparse
 import datetime
-from datetime import datetime as dt
+from collections import OrderedDict
 from datetime import date
-from statistics import mean
-from index import db
+from datetime import datetime as dt
+from flask_restful import Resource, reqparse
 from sqlalchemy import Date
+from statistics import mean
+
+from application.common.constants import (APIMessages, SupportedTestClass)
 from application.common.response import (api_response, STATUS_OK,
                                          STATUS_SERVER_ERROR,
                                          STATUS_BAD_REQUEST, STATUS_NOT_FOUND)
 from application.common.token import token_required
-from application.common.constants import (APIMessages, SupportedTestClass)
-from application.model.models import ( Organization, Project, TestSuite,
-                                       TestCase, TestCaseLog)
+from application.model.models import (Organization, Project, TestSuite,
+                                      TestCase, TestCaseLog)
+from index import db
 
 
 class ProjectDQI(Resource):
@@ -24,39 +26,41 @@ class ProjectDQI(Resource):
             - Returns Data Quality Index for given project id on a test case
             type level.
     """
-    dqi_name_casting = {'correcteness':'datavalidation',
-                        'consistency':'ddlcheck',
-                        'duplicates':'duplicatecheck', 'Null':'nullcheck',
-                        'completeness':'countcheck'}
+    dqi_name_casting = OrderedDict([('completeness', 'countcheck'),
+                                    ('Null', 'nullcheck'),
+                                    ('duplicates', 'duplicatecheck'),
+                                    ('consistency', 'ddlcheck'),
+                                    ('correcteness', 'datavalidation')])
+
     @token_required
     def get(self, session):
         project_dql_parser = reqparse.RequestParser()
         project_dql_parser.add_argument('project_id',
                                         help=APIMessages.PARSER_MESSAGE.format(
-                                             'project_id'),required=True,
+                                            'project_id'), required=True,
                                         type=int, location='args')
         project_dql_parser.add_argument("start_date",
                                         help=APIMessages.PARSER_MESSAGE.format(
-                                            'start_date'),required=False,
-                                        type=str,location='args')
+                                            'start_date'), required=False,
+                                        type=str, location='args')
         project_dql_parser.add_argument("end_date",
                                         help=APIMessages.PARSER_MESSAGE.format(
-                                            'end_date'),required=False,
-                                        type=str,location='args')
+                                            'end_date'), required=False,
+                                        type=str, location='args')
         project_dql_args = project_dql_parser.parse_args()
         try:
             project_obj = Project.query.filter_by(project_id=project_dql_args[
                 "project_id"]).first()
             if not project_obj:
-                    return api_response(False,APIMessages.INVALID_PROJECT_ID,
-                                        STATUS_NOT_FOUND)
-            project_dql_avg , dqi_values = get_project_dqi(
+                return api_response(False, APIMessages.INVALID_PROJECT_ID,
+                                    STATUS_NOT_FOUND)
+            project_dql_avg, dqi_values = get_project_dqi(
                 project_dql_args['project_id'], project_dql_args['start_date'],
                 project_dql_args['end_date'])
             dqi_list = list()
             for key in self.dqi_name_casting.keys():
                 dqi_dict = dict()
-                dqi_dict["name"] = self.dqi_name_casting[key]
+                dqi_dict["name"] = key
                 dqi_dict["value"] = dqi_values[self.dqi_name_casting[key]]
                 dqi_list.append(dqi_dict)
             project_dql_data = dict()
@@ -84,28 +88,29 @@ class OrganizationDQI(Resource):
             - Returns Data Quality Index for given project id on a test case
             type level.
     """
+
     @token_required
-    def get(self,session):
+    def get(self, session):
         org_dql_parser = reqparse.RequestParser()
         org_dql_parser.add_argument('org_id',
-                                        help=APIMessages.PARSER_MESSAGE.format(
-                                            'org_id'), required=True,
-                                        type=int, location='args')
+                                    help=APIMessages.PARSER_MESSAGE.format(
+                                        'org_id'), required=True,
+                                    type=int, location='args')
         org_dql_parser.add_argument("start_date",
-                                        help=APIMessages.PARSER_MESSAGE.format(
-                                            'start_date'), required=False,
-                                        type=str, location='args')
+                                    help=APIMessages.PARSER_MESSAGE.format(
+                                        'start_date'), required=False,
+                                    type=str, location='args')
         org_dql_parser.add_argument("end_date",
-                                        help=APIMessages.PARSER_MESSAGE.format(
-                                            'end_date'), required=False,
-                                        type=str, location='args')
+                                    help=APIMessages.PARSER_MESSAGE.format(
+                                        'end_date'), required=False,
+                                    type=str, location='args')
         org_dql_args = org_dql_parser.parse_args()
         try:
             org_obj = Organization.query.filter_by(org_id=org_dql_args[
                 "org_id"]).first()
             if not org_obj:
-                    return api_response(False,APIMessages.INVALID_ORG_ID,
-                                        STATUS_NOT_FOUND)
+                return api_response(False, APIMessages.INVALID_ORG_ID,
+                                    STATUS_NOT_FOUND)
             project_obj_list = Project.query.filter_by(
                 org_id=org_obj.org_id).all()
             project_list = list()
@@ -114,13 +119,13 @@ class OrganizationDQI(Resource):
                 project_dql_avg, dqi_values = get_project_dqi(
                     project_obj.project_id, org_dql_args['start_date'],
                     org_dql_args['end_date'])
-                project_dict['project_id']= project_obj.project_id
+                project_dict['project_id'] = project_obj.project_id
                 project_dict['project_name'] = project_obj.project_name
                 project_dict['project_dqi_percentage'] = project_dql_avg
 
                 project_list.append(project_dict)
             org_data = dict()
-            org_data['org_name']=org_obj.org_name
+            org_data['org_name'] = org_obj.org_name
             org_data['org_id'] = org_obj.org_id
             org_data['start_date'] = org_dql_args['start_date']
             org_data['end_date'] = org_dql_args['end_date']
@@ -141,6 +146,7 @@ class ProjectDQIHistory(Resource):
             - Returns Data Quality Index for given project id on a test case
             type level.
     """
+
     @token_required
     def get(self, session):
         dqi_history_parser = reqparse.RequestParser()
@@ -178,10 +184,10 @@ class ProjectDQIHistory(Resource):
             if dqi_history_data['start_date'] and dqi_history_data['end_date']:
                 start_date = dt.strptime(
                     dqi_history_data['start_date'] + " 00:00:00",
-                                                    "%Y-%m-%d %H:%M:%S")
+                    "%Y-%m-%d %H:%M:%S")
                 end_date = dt.strptime(
                     dqi_history_data['end_date'] + " 23:59:59",
-                                                  "%Y-%m-%d %H:%M:%S")
+                    "%Y-%m-%d %H:%M:%S")
         except ValueError:
             return api_response(False, APIMessages.DATE_FORMAT,
                                 STATUS_BAD_REQUEST)
@@ -246,15 +252,15 @@ def get_project_dqi_history(project_id, start_date=None, end_date=None):
             temp_dict[each_tuple[3]][each_tuple[2]][each_tuple[4]] = {}
         if each_tuple[0].strftime("%Y-%m-%d") not in \
                 temp_dict[each_tuple[3]][each_tuple[2]][each_tuple[4]]:
-                temp_dict[each_tuple[3]][each_tuple[2]][each_tuple[4]][
-                    each_tuple[0].strftime("%Y-%m-%d")] = {}
+            temp_dict[each_tuple[3]][each_tuple[2]][each_tuple[4]][
+                each_tuple[0].strftime("%Y-%m-%d")] = {}
         temp_dict[each_tuple[3]][each_tuple[2]][each_tuple[4]][each_tuple[0].
             strftime(
             "%Y-%m-%d")][SupportedTestClass(
         ).get_test_class_name_by_id(each_tuple[2])] = each_tuple[1]
     # dict_dqi_for_each_class is used to store
     # list of dqi for each class for each day
-    dict_dqi_for_each_class ={}
+    dict_dqi_for_each_class = {}
     for suite_key, suite_value in temp_dict.items():
         for class_key, class_value in suite_value.items():
             for test_case_key, test_case_value in class_value.items():
@@ -282,7 +288,7 @@ def get_project_dqi_history(project_id, start_date=None, end_date=None):
     return result_dict
 
 
-def get_project_dqi(project_id , start_date=None, end_date=None):
+def get_project_dqi(project_id, start_date=None, end_date=None):
     """
     Calculates the Data Quality Index for each test case type for all the
     test cases under a given Project and for the given time fream if start date
@@ -304,10 +310,11 @@ def get_project_dqi(project_id , start_date=None, end_date=None):
         TestCase.test_suite_id.in_(test_suite_id_list)).all()
     dqi_values = dict()
     for values in SupportedTestClass.supported_test_class.values():
-        dqi_values[values]= list()
+        dqi_values[values] = list()
     for test_case_obj in test_case_obj_list:
         if start_date and end_date:
-            test_start_date = datetime.datetime.strptime(start_date, "%Y-%m-%d")
+            test_start_date = datetime.datetime.strptime(start_date,
+                                                         "%Y-%m-%d")
             test_end_date = datetime.datetime.strptime(end_date, "%Y-%m-%d")
             test_end_date += datetime.timedelta(days=1)
             test_case_log_list = TestCaseLog.query.filter_by(
@@ -324,15 +331,13 @@ def get_project_dqi(project_id , start_date=None, end_date=None):
                     test_case_log_obj.dqi_percentage)
     for key in dqi_values.keys():
         if dqi_values[key]:
-            dqi_values[key]= sum(dqi_values[key]) / len(dqi_values[key])
+            dqi_values[key] = sum(dqi_values[key]) / len(dqi_values[key])
     project_dql_avg = 0
     for key, value in dqi_values.items():
         if value:
             project_dql_avg += value
-        else :
+        else:
             dqi_values[key] = 0
-    project_dql_avg = project_dql_avg/len(dqi_values.values())
+    project_dql_avg = project_dql_avg / len(dqi_values.values())
 
-    return project_dql_avg,dqi_values
-
-
+    return project_dql_avg, dqi_values
