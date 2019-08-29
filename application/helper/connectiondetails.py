@@ -121,7 +121,7 @@ def get_case_detail(suite_id):
 
                  "case_name": each_case.test_case_detail.get('test_desc',
                                                              APIMessages.NO_NAME_DEFINE),
-                 'test_class_name': SupportedTestClass().get_test_class_name_by_id(
+                 'test_class_name': SupportedTestClass().get_test_class_display_name_by_id(
                      each_case.test_case_class),
                  'test_class_id': each_case.test_case_class,
                  "source_db_connection_id": check_db_id(

@@ -1,11 +1,10 @@
 import ast
 import json
-from tempfile import NamedTemporaryFile
-
 from flask import Response
 from openpyxl import Workbook
+from tempfile import NamedTemporaryFile
 
-from application.common.constants import SupportedTestClass
+from application.common.constants import SupportedTestClass, TestClass
 from application.model.models import TestCaseLog
 
 
@@ -52,7 +51,7 @@ def export_test_case_log(case_log_id):
 
         response = json.dumps(export_response)
     elif test_case.test_case_class == SupportedTestClass().get_test_class_id_by_name(
-            'CountCheck'):
+            TestClass.COUNT_CHECK):
         src_response = case_log.execution_log["source_execution_log"]
         des_response = case_log.execution_log["dest_execution_log"]
         res = [['Source Count', 'destination Count']]

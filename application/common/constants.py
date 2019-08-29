@@ -112,6 +112,23 @@ class GenericStrings:
     CANNOT_CONNECT_TO_SERVER_ORACLE = "could not resolve the connect identifier specified"
 
 
+class TestClass:
+    """Test Class Constants"""
+    COUNT_CHECK = "countcheck"
+    NULL_CHECK = "nullcheck"
+    DDL_CHECK = "ddlcheck"
+    DUPLICATE_CHECK = "duplicatecheck"
+    DATA_VALIDATION = "datavalidation"
+
+
+class TestClassDisplay:
+    COUNT_CHECK = 'CountCheck'
+    NULL_CHECK = "NullCheck"
+    DDL_CHECK = "DDLCheck"
+    DUPLICATE_CHECK = "DuplicateCheck"
+    DATA_VALIDATION = "DataValidation"
+
+
 class TimeOuts:
     """Timeouts to be referenced in the code."""
 
@@ -148,7 +165,7 @@ class SupportedDBType:
         """
         for key, value in self.supported_db_type.items():
             # Name will be converted to lower case and compared
-            if value.lower() == name.lower():
+            if value == name.lower():
                 return key
             # Returns None if Name does not exist
 
@@ -156,8 +173,15 @@ class SupportedDBType:
 class SupportedTestClass:
     """Class to return Test Class Name and Id."""
 
-    supported_test_class = {1: "countcheck", 2: "nullcheck", 3: "ddlcheck",
-                            4: "duplicatecheck", 5: "datavalidation"}
+    supported_test_class = {1: TestClass.COUNT_CHECK, 2: TestClass.NULL_CHECK,
+                            3: TestClass.DDL_CHECK,
+                            4: TestClass.DUPLICATE_CHECK,
+                            5: TestClass.DATA_VALIDATION}
+    supported_test_class_display_name = {1: TestClassDisplay.COUNT_CHECK,
+                                         2: TestClassDisplay.NULL_CHECK,
+                                         3: TestClassDisplay.DDL_CHECK,
+                                         4: TestClassDisplay.DUPLICATE_CHECK,
+                                         5: TestClassDisplay.DATA_VALIDATION}
 
     def get_test_class_name_by_id(self, test_class_id):
         """
@@ -178,8 +202,18 @@ class SupportedTestClass:
         Returns: (int) Id of the test class
         """
         for key, value in self.supported_test_class.items():
-            if value == name.lower():
+            if value == name.lower():  # todo : value.lower() check it out.2
                 return key
+
+    def get_test_class_display_name_by_id(self, test_class_id):
+        """
+                Method to return test class name by passing Id.
+
+                Args:
+                    test_class_id: (int) Id of the test class
+                Returns: (str) name of the test class
+        """
+        return self.supported_test_class_display_name.get(test_class_id)
 
 
 class ExecutionStatus:

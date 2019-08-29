@@ -1,4 +1,5 @@
-from application.common.constants import ExecutionStatus, SupportedTestClass
+from application.common.constants import ExecutionStatus, SupportedTestClass, \
+    TestClass
 from application.common.dqi_calculation import calculate_dqi
 from application.helper.runnerclasshelpers import (TestCaseExecution)
 from application.model.models import (TestCaseLog, TestCase, Job)
@@ -93,26 +94,26 @@ def run_test(case_log, case_id):
     if case_id.latest_execution_status == ExecutionStatus().get_execution_status_id_by_name(
             'inprogress'):  # can be removed
         if case_id.test_case_class == SupportedTestClass(). \
-                get_test_class_id_by_name('countcheck'):
+                get_test_class_id_by_name(TestClass.COUNT_CHECK):
             result = TestCaseExecution.count_check(src_db_id, target_db_id,
                                                    test_case_detail)
 
         if case_id.test_case_class == SupportedTestClass(). \
-                get_test_class_id_by_name('nullcheck'):
+                get_test_class_id_by_name(TestClass.NULL_CHECK):
             result = TestCaseExecution.null_check(src_db_id, target_db_id,
                                                   test_case_detail)
 
         if case_id.test_case_class == SupportedTestClass(). \
-                get_test_class_id_by_name('duplicatecheck'):
+                get_test_class_id_by_name(TestClass.DUPLICATE_CHECK):
             result = TestCaseExecution.duplicate_check(src_db_id, target_db_id,
                                                        test_case_detail)
 
         if case_id.test_case_class == SupportedTestClass(). \
-                get_test_class_id_by_name('ddlcheck'):
+                get_test_class_id_by_name(TestClass.DDL_CHECK):
             result = TestCaseExecution.ddlcheck(src_db_id, target_db_id,
                                                 test_case_detail)
         if case_id.test_case_class == SupportedTestClass(). \
-                get_test_class_id_by_name('datavalidation'):
+                get_test_class_id_by_name(TestClass.DATA_VALIDATION):
             result = {'res': ExecutionStatus().get_execution_status_id_by_name(
                 'inprogress'), "Execution_log": None}
 
@@ -156,7 +157,7 @@ def run_test(case_log, case_id):
             case_log.execution_status = inprogress
             case_log.save_to_db()
             if case_id.test_case_class == SupportedTestClass(). \
-                    get_test_class_id_by_name('datavalidation'):
+                    get_test_class_id_by_name(TestClass.DATA_VALIDATION):
                 result = TestCaseExecution.data_validation(src_db_id,
                                                            target_db_id,
                                                            test_case_detail,

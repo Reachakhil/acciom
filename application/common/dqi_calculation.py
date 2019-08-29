@@ -1,4 +1,4 @@
-from application.common.constants import SupportedTestClass
+from application.common.constants import SupportedTestClass, TestClass
 from application.common.dbconnect import dbconnection
 from application.helper.runnerclasshelpers import (db_details, split_table)
 from application.model.models import TestCase
@@ -19,7 +19,7 @@ def calculate_dqi(execution_log, test_case_id):
     test_case_obj = TestCase.query.filter_by(
         test_case_id=test_case_id).first()
     if test_case_obj.test_case_class == SupportedTestClass(). \
-            get_test_class_id_by_name("countcheck"):
+            get_test_class_id_by_name(TestClass.COUNT_CHECK):
         src_count = execution_log["source_execution_log"]
         target_count = execution_log["dest_execution_log"]
         dqi = ((min(src_count, target_count)) / (

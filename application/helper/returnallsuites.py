@@ -33,9 +33,11 @@ def return_all_suites(project_id):
          particular case id
 
         """
+        print(SupportedTestClass().get_test_class_display_name_by_id(
+            case_id.test_case_class))
         return {
             'test_case_id': case_id.test_case_id,
-            'test_class_name': SupportedTestClass().get_test_class_name_by_id(
+            'test_class_name': SupportedTestClass().get_test_class_display_name_by_id(
                 case_id.test_case_class),
             'test_class_id': case_id.test_case_class,
             'test_class_description': case_id.test_case_detail.get('test_desc',
