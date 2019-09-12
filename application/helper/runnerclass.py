@@ -2,7 +2,9 @@ from application.common.constants import ExecutionStatus, SupportedTestClass, \
     TestClass
 from application.common.dqi_calculation import calculate_dqi
 from application.helper.runnerclasshelpers import (TestCaseExecution)
-from application.model.models import (TestCaseLog, TestCase, Job)
+from application.model.models import (TestCaseLog, TestCase, Job,User)
+
+
 
 
 def save_test_status(test_case_id, status):
@@ -182,3 +184,10 @@ def save_case_log_information(case_log, case_log_execution_status,
     dqi = calculate_dqi(spark_job_data, test_case_id)
     case_log.dqi_percentage = dqi
     case_log.save_to_db()
+
+
+
+
+
+
+    

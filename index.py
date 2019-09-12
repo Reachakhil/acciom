@@ -7,6 +7,7 @@ from flask import Flask
 from flask_cors import CORS
 from flask_restful import Api
 from flask_sqlalchemy import SQLAlchemy
+from flask_mail import Message, Mail
 
 levels = {"DEBUG": logging.DEBUG,
           "INFO": logging.INFO,
@@ -37,8 +38,7 @@ def create_app():
 def make_celery(app):
     celery = Celery(
         app.import_name,
-        # backend=app.config['CELERY_BACKEND'],
-        # broker=app.config['CELERY_BROKER_URL']
+        backend="amqp", broker='amqp://guest@localhost:5672//'
     )
     celery.conf.update(app.config)
 
@@ -58,5 +58,7 @@ CORS(app)
 app.url_map.strict_slashes = False
 db = SQLAlchemy(app)
 api = Api(app)
+mail = Mail(app)
+
 
 celery = make_celery(app)

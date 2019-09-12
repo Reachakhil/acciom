@@ -6,9 +6,9 @@ from sqlalchemy.exc import SQLAlchemyError
 
 from application.common.constants import APIMessages
 from application.common.response import (api_response, STATUS_BAD_REQUEST,
-                                         STATUS_CREATED, STATUS_SERVER_ERROR)
+                                        STATUS_CREATED, STATUS_SERVER_ERROR)
 from application.common.token import (login_required, token_required,
-                                      generate_auth_token)
+                                    generate_auth_token)
 from application.common.utils import (send_reset_email, verify_reset_token)
 from application.common.utils import validate_empty_fields
 from application.common.utils import (verify_hash, generate_hash)
@@ -94,8 +94,8 @@ class ForgotPassword(Resource):
         try:
             post_email_parser = reqparse.RequestParser(bundle_errors=True)
             post_email_parser.add_argument('email', required=True,
-                                           type=str,
-                                           help=APIMessages.PARSER_MESSAGE)
+                                        type=str,
+                                        help=APIMessages.PARSER_MESSAGE)
             email_data = post_email_parser.parse_args()
             user = User.query.filter_by(email=email_data['email']).first()
             if user is None:
@@ -123,8 +123,8 @@ class ChangePassword(Resource):
     @token_required
     def post(self, session):
         """
-         To change the password for the user and updating new password in
-         database
+        To change the password for the user and updating new password in
+        database
 
         Args:
             session (object):By using this object we can get the user_id.
@@ -137,8 +137,8 @@ class ChangePassword(Resource):
         try:
             post_db_detail_parser = reqparse.RequestParser(bundle_errors=True)
             post_db_detail_parser.add_argument('old_password', required=True,
-                                               type=str,
-                                               help=APIMessages.PARSER_MESSAGE)
+                                            type=str,
+                                            help=APIMessages.PARSER_MESSAGE)
             post_db_detail_parser.add_argument('new_password', required=True,
                                                type=str,
                                                help=APIMessages.PARSER_MESSAGE)
