@@ -18,35 +18,34 @@ def run_by_case_id_other(case_log_id, test_case_id, user_id):
 
 @celery.task(name='check_job_status', queue="job_status_Q")
 def check_job_status(job_id,user_id,celery_task_list):
-    # for task in celery_task_list:
-    #     res = AsyncResult(id=task)
-    #     if res.state == 'SUCCESS':
-    #         celery_task_list.remove(task)
-    # if celery_task_list:
-    #     check_job_status.apply_async((job_id,user_id,celery_task_list),
-    #     countdown=5)
-    # else:
-    #     completed = check_complete(job_id)
-    #     completed= True
-    #     if completed:
-    #         send_email(job_id, user_id)
-    #     else:
-    #         check_job_status.delay((job_id,user_id,celery_task_list), 
-    #         countdown=5) 
-    # return True
+    for task in celery_task_list:
+        res = AsyncResult(id=task)
+        if res.state == 'SUCCESS':
+            celery_task_list.remove(task)
+    if celery_task_list:
+        check_job_status.apply_async((job_id,user_id,celery_task_list),
+        countdown=5)
+    else:
+        completed = check_complete(job_id)
+        # completed= True
+        if completed:
+            send_email(job_id, user_id)
+        else:
+            check_job_status.apply_async((job_id,user_id,celery_task_list), 
+            countdown=5) 
 
     #########################################
-    while celery_task_list:
-        for task in celery_task_list:
-            res = AsyncResult(id = task)
-            if res.state == 'SUCCESS':
-                celery_task_list.remove(task)
-        time.sleep(2)
-    check_complete(job_id)
-    while not check_complete(job_id):
-        time.sleep(5)
-    send_email(job_id, user_id)
-    return True
+    # while celery_task_list:
+    #     for task in celery_task_list:
+    #         res = AsyncResult(id = task)
+    #         if res.state == 'SUCCESS':
+    #             celery_task_list.remove(task)
+    #     time.sleep(2)
+    # check_complete(job_id)
+    # while not check_complete(job_id):
+    #     time.sleep(5)
+    # send_email(job_id, user_id)
+    # return True
         
 
 
