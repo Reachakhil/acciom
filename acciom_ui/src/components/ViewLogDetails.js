@@ -286,6 +286,28 @@ class CaseLogDetails extends React.Component {
 										</label>
 									</td>
 								</tr>
+								{ this.props.TestCaseLogDetails.Execution_status === 'fail' && this.props.TestCaseLogDetails.Execution_log && this.props.TestCaseLogDetails.Execution_log.hasOwnProperty('source_execution_log') && this.props.TestCaseLogDetails.Execution_log['source_execution_log'].length > 0 ?
+								<td className="executionLog">
+										{
+											this.props.TestCaseLogDetails.Execution_log['source_execution_log'].map(log => (
+											<tr>
+												{log}
+											</tr>
+											))											
+										}
+									</td>
+								: null }
+								{ this.props.TestCaseLogDetails.Execution_status === 'fail' && this.props.TestCaseLogDetails.Execution_log && this.props.TestCaseLogDetails.Execution_log.hasOwnProperty('dest_execution_log') && this.props.TestCaseLogDetails.Execution_log['dest_execution_log'].length > 0 ?
+								<td className="executionLog">
+										{
+											this.props.TestCaseLogDetails.Execution_log['dest_execution_log'].map(log => (
+											<tr>
+												{log}
+											</tr>
+											))											
+										}
+									</td>
+								: null }
 							</tbody>
 						</Table>
 						: this.props.testCaseName == 'datavalidation' ?
@@ -352,6 +374,36 @@ class CaseLogDetails extends React.Component {
 											</label>
 										</td>
 									</tr>
+								: null }
+								{ this.props.TestCaseLogDetails.Execution_status === 'fail' && this.props.TestCaseLogDetails.Execution_log && this.props.TestCaseLogDetails.Execution_log.hasOwnProperty('source_execution_log') && this.props.TestCaseLogDetails.Execution_log['source_execution_log'] !== null && this.props.TestCaseLogDetails.Execution_log['source_execution_log'].length > 0 ?
+								<td>
+									<Table className="executionLog" style={{width:"50%"}}>
+										{
+											this.props.TestCaseLogDetails.Execution_log.source_execution_log.map(log => (
+											<tr>
+												{log.map(details => (
+													<td className="testCaseLogLabel">{details}</td>
+												))}
+											</tr>
+											))											
+										}
+									</Table>
+								</td>
+								: null }
+								{ this.props.TestCaseLogDetails.Execution_status === 'fail' && this.props.TestCaseLogDetails.Execution_log && this.props.TestCaseLogDetails.Execution_log.hasOwnProperty('dest_execution_log') && this.props.TestCaseLogDetails.Execution_log['dest_execution_log'] !== null && this.props.TestCaseLogDetails.Execution_log['dest_execution_log'].length > 0 ?
+								<td>
+									<Table className="executionLog" style={{width:"50%"}}>
+										{
+											this.props.TestCaseLogDetails.Execution_log.dest_execution_log.map(log => (
+											<tr>
+												{log.map(details => (
+													<td className="testCaseLogLabel">{details}</td>
+												))}
+											</tr>
+											))											
+										}
+									</Table>
+									</td>
 								: null }	
 							</tbody>
 						</Table> 

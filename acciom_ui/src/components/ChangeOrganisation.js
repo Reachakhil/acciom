@@ -51,10 +51,10 @@ class ChangeOrganisation extends React.Component {
 		return (
 			<Modal id="orgChangeModal" show={this.props.isOrgChangePageVisible} 
 				onHide={(event) => { handleShowOrg(false);}} container={this}
-				aria-labelledby="contained-modal-title">
+				aria-labelledby="contained-modal-title" bsSize="medium" className="switchprojectpopbox">
 
-				<Modal.Header closeButton>
-					<Modal.Title id="contained-modal-title">
+				<Modal.Header closeButton className="switchprojectpopboxheader">
+					<Modal.Title id="contained-modal-title" className="sub_title">
 						Change Organisation
 					</Modal.Title>
 				</Modal.Header>
@@ -62,15 +62,15 @@ class ChangeOrganisation extends React.Component {
 				<Modal.Body>
 					<form onSubmit={(e) => onChangeOrgSubmit(e)}> 
 						<FormGroup controlId="organisation">
-							<Col sm={6}><ControlLabel>Select the organisation to be changed</ControlLabel></Col>
+							<Col sm={6}><ControlLabel className="chnageorglabel label2">Select the organisation to be changed</ControlLabel></Col>
 							<Col sm={6}>
-								<FormControl componentClass="select" placeholder="select" value={this.state.selectedOrgId} onChange = {(e) => handleOrgChange(e)}>
+								<FormControl componentClass="select" className="chngorgeditbox" placeholder="select" value={this.state.selectedOrgId} onChange = {(e) => handleOrgChange(e)}>
 									{ renderOrgListOptions() }
 								</FormControl>
 							</Col>
 						</FormGroup >
 						<FormGroup controlId="submit" className="submitBtn">
-							<Button type="submit" bsStyle="primary">Save</Button>
+							<Button type="submit" className="button-colors chngorgsavebtn">Save</Button>
 						</FormGroup>
 					</form>
 				</Modal.Body>

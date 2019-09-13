@@ -85,6 +85,7 @@ class RoleListItemContainer extends Component {
 			<div>
 				<Select 
 					className='singleSelect'
+					theme={theme => ({ ...theme, borderRadius: 5, colors: { ...theme.colors, primary25: '#d38d92', primary: '#b7c0ce', primary50: '#b7c0ce' }, })}
 					value={this.props.selectedOrgProject}
 					onChange={ (item) => this.handleOrgProjectChange(item) }
 					options= { this.props.orgProjectList }
@@ -93,18 +94,19 @@ class RoleListItemContainer extends Component {
 				<Select
 					className='multiSelect'
 					isMulti='true'
+					theme={theme => ({ ...theme, borderRadius: 5, colors: { ...theme.colors, primary25: '#d38d92', primary: '#b7c0ce', primary50: '#b7c0ce' }, })}
 					value={this.state.selectedRoles}
 					onChange={ (item) => this.handleRoleChange(item) }
 					options={ this.state.rolesList }
 				/>
 
 				{ this.props.showDeleteBtn ? 
-					<i className='fas fa-minus-circle minusCircle' onClick={() => this.deleteRow(this.props.roleType, this.props.index)}></i>
+					<i className='fas fa-minus-circle minusCircle minuscirclecolor' onClick={() => this.deleteRow(this.props.roleType, this.props.index)}></i>
 					: null
 				}
-
+				<br/>
 				{ this.props.showAddBtn ? 
-					<i className='fas fa-plus-circle plusCircle' onClick={() => this.addRow()}></i>
+					<i className='fas fa-plus-circle plusCircle minuscirclecolor' onClick={() => this.addRow()}></i>
 					: null
 				}
 			</div>

@@ -8,11 +8,6 @@ html
     color: darkred;
 }
 
-.logo {
-    width: 70px;
-    height: 70px;
-}
-
 .loginOptions {
     font-weight: bold;
     cursor: pointer;  
@@ -29,9 +24,10 @@ html
     display: inline-block;
 }
 
-.viewDbDetailsForm .addDbBtn {
-    width: 200px;
+.viewDbDetailsForm #addDbBtn {
     float: right;
+    margin-top: -10px;
+    margin-bottom: 10px;
 }
 
 .addDbDetailsForm {
@@ -60,13 +56,8 @@ html
     padding: 0px 16px;
 }
 .clipboardOnhover:hover {
-    color:  blue;
+    /* color:  blue; */
     cursor: pointer 
-}
-.needToken {
-    width: 40%;
-    /* font-size: 1rem */
-    
 }
 .tokenField {
     border: none;
@@ -491,7 +482,7 @@ html
    body {
        color: #73879C;
        background: #2A3F54;
-       font-family: "Helvetica Neue", Roboto, Arial, "Droid Sans", sans-serif;
+       font-family: Open Sans;
        font-size: 13px;
        font-weight: 400;
        line-height: 1.471
@@ -665,11 +656,11 @@ html
    .btn.focus,
    .btn:active.focus,
    .btn.active.focus {
-       outline: 0
+       outline: 0;
    }
    a:hover,
    a:focus {
-       text-decoration: none
+       text-decoration: none;
    }
    .navbar {
        margin-bottom: 0
@@ -738,7 +729,7 @@ html
    }
    .nav.child_menu li:hover,
    .nav.child_menu li.active {
-       background-color: rgba(255, 255, 255, 0.06)
+       background-color: rgba(255, 255, 255, 0.06);
    }
    .nav.child_menu li {
        padding-left: 36px
@@ -1845,7 +1836,7 @@ html
        width: 26px;
        opacity: .99;
        display: inline-block;
-       font-family: FontAwesome;
+       /* font-family: FontAwesome; */
        font-style: normal;
        font-weight: normal;
        font-size: 18px;
@@ -2008,17 +1999,10 @@ html
        text-align: left;
        width: 100%
    }
-   button,
-   .buttons,
-   .btn,
-   .modal-footer .btn+.btn {
-       margin-bottom: 5px;
-       margin-right: 5px
-   }
    .btn-group-vertical .btn,
    .btn-group .btn {
        margin-bottom: 0;
-       margin-right: 0
+       margin-right: 0px;
    }
    .mail_list_column {
        border-left: 1px solid #DBDBDB
@@ -2336,15 +2320,6 @@ html
    .btn {
        border-radius: 3px
    }
-
-   /* .btn-primary, .btn-primary:active, .btn-primary:active:hover {
-        background-color: #a10404;
-        border-color: #9f0000;
-   }
-   .btn-primary:hover {
-        background-color: #7a0101;
-        border-color: #7a0101;
-   } */
    
    a.btn-success,
    a.btn-primary,
@@ -2429,7 +2404,7 @@ html
        display: inline-block;
        padding: 3px 9px;
        margin-bottom: 0;
-       font-size: 14px;
+       font-size: 13px;
        line-height: 20px;
        text-align: center;
        vertical-align: middle;
@@ -2510,7 +2485,7 @@ html
        margin-right: 5px;
        font-weight: 500;
        margin-bottom: 5px;
-       font-family: helvetica
+       font-family: Open sans;
    }
    span.tag a {
        color: #F1F6F7 !important
@@ -2524,7 +2499,7 @@ html
    .tagsinput input {
        width: 80px;
        margin: 0px;
-       font-family: helvetica;
+       font-family: Open sans;
        font-size: 13px;
        border: 1px solid transparent;
        padding: 3px;
@@ -3176,7 +3151,7 @@ html
        padding: 0 4px
    }
    .view p {
-       font-family: Georgia, serif;
+       font-family: Open sans;
        font-style: italic;
        font-size: 12px;
        position: relative;
@@ -3335,7 +3310,7 @@ html
        color: #666;
        background: rgba(243, 242, 243, 0.8);
        border: solid 2px rgba(195, 194, 196, 0.8);
-       font-family: sans-serif;
+       font-family: Open sans;
        font-size: 12px;
        text-align: center
    }
@@ -4081,6 +4056,7 @@ html
 
 .MuiDrawer-paperAnchorLeft {
     background: #2A3F54 !important;
+    top: 70px !important;
     /* background: #77040b !important; */
 }
 
@@ -4088,19 +4064,20 @@ html
     color: #E7E7E7 !important;
 }
 
-.MuiAppBar-colorPrimary {
-    background-image: linear-gradient(to right, white, #e6e1e1);
-}
+/*.MuiAppBar-colorPrimary {
+    background-image: linear-gradient(to right, white, #e585a3);
+    
+}*/
 
 .activityHeading {
     display: inline-block;
 }
 
-.activityHeading, .chartHeading {
+/* .activityHeading, .chartHeading {
     font-size: 15px !important;
     font-weight: bold;
     color: cadetblue;
-}
+} */
 
 .clearfix {
     border-bottom: 2px solid #E6E9ED;
@@ -4172,13 +4149,13 @@ html
     font-weight: bold; 
 }
 
-.sideNavBar a:hover {
+/* .sideNavBar a:hover {
     color: #b0daff !important;
 }
 
 .sideNavBar a:active {
    color: #0085fb !important
-}
+} */
 
 .DQIprojectGauge {
     padding-top: 0px !important;
@@ -4243,7 +4220,7 @@ textarea {
 }
 
 #viewLogDetails .executionLog td, th {
-    border: 1px solid #ddd;
+   /* border: 1px solid #ddd; */
 }
 
 .caseLogMargin .modal-content {
@@ -4444,7 +4421,7 @@ textarea {width:280px;}
   .singleSelect, .multiSelect {
       display: inline-block;
       width: 40%;
-      padding-left: 15px;
+      margin-left: 15px;
   }
 
   .plusCircle, .minusCircle {
@@ -4489,7 +4466,7 @@ textarea {width:280px;}
 
 #userManagement .list-group-item .fName {
     display: block;
-    font-size: 17px;
+    font-size: 16px;
 }
 #userManagement .list-group-item .email {
     display: block;
@@ -4502,15 +4479,16 @@ textarea {width:280px;}
 }
 
 .user_name, .Description {
-    width: 79%;
-    margin-left: 15px;
+    width: calc(80% + 15px);
+    margin-left: 16px;
     height: 35px;
-    border-radius: 3px;
-    margin-bottom: 20px;
+    border-radius: 5px;
+    margin-bottom: 10px;
+    background-color: #fff;
 }
 
 .userNameHeader, .DescriptionHeader, .editableHeader {
-    margin-left: 15px;
+    margin-left: 14px;
 }
 
 .chartLabel {
@@ -4549,6 +4527,8 @@ textarea {width:280px;}
 
 .viewDbDetailsForm .project-switch {
     float: right;
+    margin-bottom: 10px;
+    margin-top: -10px;
 }
 
 .testSuiteList .page-header {
@@ -4613,15 +4593,6 @@ textarea {width:280px;}
     height: 35px;
 }
 
-.browse-txt {
-    height: 35px;
-    width: 300px;
-    margin-right: 10px;
-}
-
-.deleteconfirmpopup{
-    margin: 200px
-}
 .deleteconfirmpopupfield{
     margin: 10px 2px
 }

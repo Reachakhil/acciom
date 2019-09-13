@@ -104,6 +104,8 @@ class APIMessages:
     USERNAME_CANNOT_EMPTY = "Usename cannot be empty"
     TEST_CLASS_NAME = "Test Class Name is not valid. Supported Testclass are" \
                       " are CountCheck, NullCheck, DuplicateCheck, DDLCheck, Datavalidation"
+    DELETE_DB_WARNING = "DB connection is associate with existing test case, you cannot delete it."
+    DELETE_DB_VERIFY_DELETE = "Data Base with db id {} can be Deleted."
 
 
 class GenericStrings:
@@ -152,6 +154,18 @@ class TestTypeDisplay:
     DUPLICATES = "Duplicates"
     CONSISTENCY = "Consistency"
     CORRECTNESS = "Correcteness"
+
+
+class DQIClassNameMapping:
+    """Class to map display value and db value of jobs."""
+
+    dqi_class_name_mapping = \
+        {TestClass.COUNT_CHECK: TestTypeDisplay.COMPLETENESS,
+         TestClass.NULL_CHECK: TestTypeDisplay.NULLS,
+         TestClass.DUPLICATE_CHECK: TestTypeDisplay.DUPLICATES,
+         TestClass.DDL_CHECK: TestTypeDisplay.CONSISTENCY,
+         TestClass.DATA_VALIDATION: TestTypeDisplay.CORRECTNESS
+         }
 
 
 class SupportedDBType:

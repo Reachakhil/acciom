@@ -54,8 +54,8 @@ class ChangePasswordComponent extends Component {
 
 		return(
 			<div className="loginForm">
-				<Panel>
-					<Panel.Heading>Change Password</Panel.Heading>
+				<Panel className="passw_chng_panel_margin">
+					<Panel.Heading className="chgpasswtable">Change Password</Panel.Heading>
 					<Panel.Body>
 						<form onSubmit={this.submitNewPassWord}>
 							<FormGroup controlId="email" >
@@ -77,7 +77,7 @@ class ChangePasswordComponent extends Component {
 									<HelpBlock>{errors.password}</HelpBlock> 
 								}
 							</FormGroup>
-							<Button type="submit" bsStyle="primary">Submit</Button>
+							<Button type="submit" className="button-colors chngpasswbtn" bsStyle="primary">Submit</Button>
 						</form>
 					</Panel.Body>
 				</Panel>

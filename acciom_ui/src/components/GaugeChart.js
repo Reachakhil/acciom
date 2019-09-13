@@ -44,7 +44,7 @@ function GaugeChart (props) {
 
 	return (
 		<div className="row DQIprojectGauge ">  
-			<Chart options={options} series={options.series} type="radialBar" width={props.width ? props.width : 300}/>
+			<Chart options={options} series={options.series} type="radialBar" width={props.width ? props.width : 200}/>
 			<span className={props.class}>{props.name}</span>
 		</div>
 	);

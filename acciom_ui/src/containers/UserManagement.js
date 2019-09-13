@@ -32,14 +32,14 @@ class UserManagement extends Component {
 				console.log('user here', user)
 				return (
 					<li key={index} className="list-group-item" >
-						<Col sm={1}><i className="fas fa-user-circle"></i></Col>
+						<Col sm={1}><i className="fa fa-user-circle usermanagelogo"></i></Col>
 						<Col sm={7}>
 							<span className="fName" >{user.first_name}</span>
 							<span className="email" >{user.email}</span>
 						</Col>
 						<Col sm={4} className="editBtn">
 							<Link to={`/edit_user_role/${user.user_id}`}>
-								<Button type="button" bsStyle="primary">Edit</Button>
+								<Button type="button" className="button-colors" bsStyle="primary">Edit</Button>
 							</Link>	
 						</Col>
 					</li>

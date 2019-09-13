@@ -2,16 +2,18 @@
 
 from datetime import datetime
 
-from flask_restful import Resource, reqparse
+from flask_restful import Resource, reqparse, inputs
 
 from application.common.constants import APIMessages, SupportedDBType
 from application.common.response import (api_response, STATUS_BAD_REQUEST,
-                                         STATUS_CREATED)
+                                         STATUS_CREATED, STATUS_OK,
+                                         STATUS_CONFLICT)
 from application.common.token import token_required
 from application.common.utils import validate_empty_fields
 from application.helper.encrypt import encrypt
 from application.helper.permission_check import check_permission
-from application.model.models import (DbConnection, Project, Organization)
+from application.model.models import (DbConnection, Project, Organization,
+                                      TestCase)
 from index import db
 
 
@@ -399,7 +401,7 @@ class DbDetails(Resource):
         """
         To delete the data base for the user provided data base id.
 
-       Args:
+        Args:
             session (object):By using this object we can get the user_id.
 
         Returns:
@@ -411,8 +413,13 @@ class DbDetails(Resource):
                                              required=True,
                                              type=int,
                                              location='args')
-        databaseid = delete_db_detail_parser.parse_args()
-        data_base_id = databaseid.get("db_connection_id")
+        delete_db_detail_parser.add_argument('verify_delete',
+                                             required=False,
+                                             type=inputs.boolean,
+                                             location='args',
+                                             default=False)
+        deletedata = delete_db_detail_parser.parse_args()
+        data_base_id = deletedata.get("db_connection_id")
         if not data_base_id:
             return api_response(False,
                                 APIMessages.PASS_DB_ID,
@@ -440,12 +447,30 @@ class DbDetails(Resource):
         check_permission(session.user, ["delete_db_details"],
                          project_id_org_id[0],
                          project_id_org_id[1])
-        del_obj.is_deleted = True
-        del_obj.save_to_db()
-        return api_response(True,
-                            APIMessages.DB_DELETED.format(
-                                data_base_id),
-                            STATUS_CREATED)
+
+        # check whether passed db conection id is associated with any testcases
+        data_base_ids = db.session.query(
+            TestCase.test_case_detail["src_db_id"],
+            TestCase.test_case_detail["target_db_id"]).filter(
+            TestCase.is_deleted == False).all()
+        idset = set()
+        for tupleid in data_base_ids:
+            for id in tupleid:
+                idset.add(id)
+        if data_base_id in idset:
+            return api_response(False, APIMessages.DELETE_DB_WARNING,
+                                STATUS_CONFLICT)
+        if deletedata["verify_delete"] is True:
+            del_obj.is_deleted = True
+            del_obj.save_to_db()
+            return api_response(True,
+                                APIMessages.DB_DELETED.format(
+                                    data_base_id),
+                                STATUS_CREATED)
+        else:
+            return api_response(True,
+                                APIMessages.DELETE_DB_VERIFY_DELETE.format(
+                                    data_base_id), STATUS_OK)
 
 
 class SupportedDBTypes(Resource):

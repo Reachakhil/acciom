@@ -14,13 +14,20 @@ import {
 	GET_DB_DETAILS_BY_ID_ERROR,
 	DELETE_DB_DETAILS_SUCCESS,
 	DELETE_DB_DETAILS_ERROR,
-	REDIRECT_TO_VIEW_DB_PAGE_COMPLETE
+	REDIRECT_TO_VIEW_DB_PAGE_COMPLETE,
+	RESET_SELECTED_DB_DETAILS
 } from '../constants/ActionTypes'; 
 
 export const redirectToViewDbPageComplete = error => {
 	return {
 		type: REDIRECT_TO_VIEW_DB_PAGE_COMPLETE,
 		error
+	}
+};
+
+export const resetSelectedDbDetails = () => {
+	return {
+		type: RESET_SELECTED_DB_DETAILS
 	}
 };
 

@@ -37,11 +37,8 @@ def send_email(job_id, user_id):
     render_list['Test_Description'] = Test_Description
     render_list['src_tables'] = Test_src_table
     render_list['dest_tables'] = Test_target_table
-
     current_time = datetime.datetime.now()
     current_time.strftime("%c")
-
-
     User_obj = User.query.filter_by(user_id = user_id).first()
     email = User_obj.email
     msg = Message('Quality Suite Result',

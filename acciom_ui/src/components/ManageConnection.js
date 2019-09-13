@@ -108,7 +108,7 @@ class ManageConnection extends React.Component {
 					</ManageConnectionSelect>
 				</Modal.Body>
 				<Modal.Footer>
-					<Button className="btn btn-primary" onClick={this.handleManageConnectionSave} disabled={isValid}>
+					<Button className="btn btn-primary button-colors" onClick={this.handleManageConnectionSave} disabled={isValid}>
 						Save
 					</Button>
 					{/* <Button className="btn btn-primary" onClick={e => this.handleResetConnection(e)}>Reset</Button> */}

@@ -347,18 +347,18 @@ class TestSuiteUpload extends React.Component {
 			
 			<div id="suite-upload">
 				<div>
-					<h4 className='pageTitle'>Update Data Profiling</h4>
-					<div className='project-switch'><Button bsStyle="primary" onClick={ (e) => handleSwitchProject()}>Switch Project</Button> </div>
+					<h4 className='pageTitle update-data-profiling-title main_titles'>Update Data Profiling</h4>
+					<div className='project-switch brows-btn'><Button className="button-colors" bsStyle="primary" onClick={ (e) => handleSwitchProject()}>Switch Project</Button> </div>
 				</div>
 				<Tabs activeKey={this.state.key} onSelect={handleSelect} id="controlled-tab-example" >
-					<Tab eventKey={TAB_UPLOAD_FILE} title="Upload Data Profiling">
+					<Tab className="updatedataprofilingtab" eventKey={TAB_UPLOAD_FILE} title="Upload Data Profiling">
 						<div className='testSuiteUploadOptions'>
 							<div className="hideElement">
 								<input  id="testSuiteUploadFile" type="file" className="file" placeholder="Upload file" accept=".xlsx" 
 									onChange={ (e) => handleChange(e)}/>
 							</div>
-							<input className="browse-txt" type="textbox" placeholder="example.xlsx" value={this.props.file} disabled/>
-							<Button className="browse-button" bsStyle="primary" onClick={ (e) => handleTestSuiteUploadClick()}>Browse File</Button>							
+							<input className="browse-txt" type="textbox" placeholder="&nbsp; example.xlsx" value={this.props.file} disabled/>
+							<Button className="button-colors" bsStyle="primary" onClick={ (e) => handleTestSuiteUploadClick()}>Browse File</Button>							
 						</div>
 					</Tab>
 			

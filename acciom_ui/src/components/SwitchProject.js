@@ -52,10 +52,10 @@ class SwitchProject extends React.Component {
 
 			<Modal id="orgChangeModal" show={this.props.isProjectSwitchPageVisible} 
 				onHide={(event) => { hidePopup()}} container={this}
-				aria-labelledby="contained-modal-title">
+				aria-labelledby="contained-modal-title" bsSize="medium" className="switchprojectpopbox">
 
-				<Modal.Header closeButton>
-					<Modal.Title id="contained-modal-title">
+				<Modal.Header closeButton className="switchprojectpopbox switchprojectpopboxheader">
+					<Modal.Title id="contained-modal-title" className="switchprojectpoptitle">
 						Switch Project
 					</Modal.Title>
 				</Modal.Header>
@@ -63,15 +63,15 @@ class SwitchProject extends React.Component {
 				<Modal.Body>
 					<form onSubmit={(e) => onSubmit(e)}> 
 						<FormGroup controlId="project">
-							<Col sm={6}><ControlLabel>Select the new project: </ControlLabel></Col>
+							<Col sm={6}><ControlLabel className="selectlabel">Select the new project: </ControlLabel></Col>
 							<Col sm={6}>
-								<FormControl componentClass="select" placeholder="select" value={this.state.selectedProjectId} onChange = {(e) => handleProjectChange(e)}>
+								<FormControl componentClass="select" className="editbox" placeholder="select" value={this.state.selectedProjectId} onChange = {(e) => handleProjectChange(e)}>
 									{ renderProjectListOptions() }
 								</FormControl>
 							</Col>
 						</FormGroup >
 						<FormGroup controlId="submit" className="submitBtn">
-							<Button type="submit" bsStyle="primary">Save</Button>
+							<Button type="submit" className="button-colors savebtn">Save</Button>
 						</FormGroup>
 					</form>
 				</Modal.Body>

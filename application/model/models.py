@@ -326,7 +326,7 @@ class TestCaseLog(db.Model):
     __tablename__ = "test_case_log"
     test_case_log_id = db.Column(db.Integer, primary_key=True)
     test_case_id = db.Column(db.ForeignKey('test_case.test_case_id'),
-                             index=True)
+                            index=True)
     job_id = db.Column(db.ForeignKey('job.job_id'), index=True)
     execution_status = db.Column(db.SMALLINT, nullable=False)
     dqi_percentage = db.Column(db.Float(precision=2), nullable=True)

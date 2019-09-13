@@ -26,7 +26,7 @@ class DQIDetailsContainer extends Component {
 			let chartList = [];
 			if (this.props.projectDataQuality && this.props.projectDataQuality.project_name) {
 				chartList =  this.props.projectDataQuality.project_dqi_detail.map((item, index) => {
-					return (<li key={ index }><GaugeChart name={item.name} class={'DQIprojectGaugeDetail'} percentage={item.value} width={300} color={colorsArray[index]}/></li>);
+					return (<li key={ index }><GaugeChart name={item.name} class={'DQIprojectGaugeDetail'} percentage={item.value} width={220} color={colorsArray[index]}/></li>);
 				})
 				return chartList; 
 			}

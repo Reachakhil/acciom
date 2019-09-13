@@ -27,9 +27,9 @@ class Startup extends React.Component {
 		return (
 			<div className='testSuiteList'>
 				<div className='page-title'>
-					<h2 className="activityHeading">Data Profiling</h2>
+					<h2 className="main_titles dataprofilingtitle">Data Profiling</h2>
 					<div className='project-switch'>
-						<Button bsStyle="primary" onClick={ (e) => this.props.showProjectSwitchPage(true)}>Switch Project</Button> 
+						<Button className="button-colors switchprojectbtn" bsStyle="primary" onClick={ (e) => this.props.showProjectSwitchPage(true)}>Switch Project</Button> 
 					</div>
 				</div>
 				<TestSuiteList />

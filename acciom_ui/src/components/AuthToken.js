@@ -27,12 +27,12 @@ class AuthToken extends Component{
 		return(
 			<div className=''>
 				<Panel>
-					<Panel.Heading>
-						<h5>Message:</h5>
-						<input className= "needToken" placeholder="Why you need this Token ?"></input>
-					</Panel.Heading>
-					<Panel.Body><h5>Personal Access Token</h5>
-						<Button bsStyle="primary" className="gentokenButton" onClick={(e) => {this.onGenerateButtonClick(e)}}>Generate Token</Button>                  
+					<Panel.Heading className="accesstknheader">
+						<h5 className="msginline">Message</h5>
+						<input className= "needTokeneditbox" placeholder="Why you need this Token ?"></input>
+					</Panel.Heading >
+					<Panel.Body className="panelheight"><h5>Personal Access Token</h5>
+						<Button title="Click here for Generate Token" bsStyle="primary" className="gentokenButton button-colors" onClick={(e) => {this.onGenerateButtonClick(e)}}>Generate Token</Button>                  
 					</Panel.Body>
 					{this.state.isToken ? (
 						<Panel.Body className="tokenpanelBackground">

@@ -1,10 +1,9 @@
 from application.common.constants import ExecutionStatus, SupportedTestClass, \
     TestClass
 from application.common.dqi_calculation import calculate_dqi
-from application.helper.runnerclasshelpers import (TestCaseExecution)
 from application.model.models import (TestCaseLog, TestCase, Job,User)
-
-
+from application.helper.runnerclasshelpers import (TestCaseExecution,
+                                                   datavalidation_result_format_change)
 
 
 def save_test_status(test_case_id, status):
@@ -170,12 +169,16 @@ def save_case_log_information(case_log, case_log_execution_status,
 
     """
     case_log.execution_status = case_log_execution_status
-    if src_log == '[]':
-        src_log = None
-    elif dest_log == '[]':
-        dest_log = None
-    spark_job_data = {"source_execution_log": src_log,
-                      "dest_execution_log": dest_log,
+    if src_log == [] or src_log == None:
+        src_result = None
+    else:
+        src_result = datavalidation_result_format_change(src_log)
+    if dest_log == [] or dest_log == None:
+        dest_result = None
+    else:
+        dest_result = datavalidation_result_format_change(dest_log)
+    spark_job_data = {"source_execution_log": src_result,
+                      "dest_execution_log": dest_result,
                       "src_count": source_count,
                       "src_to_dest_count": src_to_dest,
                       "dest_count": dest_count,

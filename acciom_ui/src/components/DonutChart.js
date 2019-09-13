@@ -8,7 +8,7 @@ class DonutChart extends Component {
 	render() {
 		this.options = {
 			chart: {
-				height: 300,
+				height: 220,
 				type: 'radialBar',
 			},
 			series: [this.props.chartData.project_dqi_percentage.toFixed(2)],
@@ -22,11 +22,11 @@ class DonutChart extends Component {
 							offsetY: -5,
 							show: true,
 							color: "#888",
-							fontSize: "20px",
+							fontSize: "15px",
 						},
 						value: {
 							color: "#111",
-							fontSize: "20px",
+							fontSize: "15px",
 							show: true,
 							offsetY: 5
 						}
@@ -36,7 +36,7 @@ class DonutChart extends Component {
 		}
 		return (
 			<div className="donut">
-				<Chart options={this.options} series={this.options.series} colors={this.options.colors} type="radialBar" width="300" />
+				<Chart options={this.options} series={this.options.series} colors={this.options.colors} type="radialBar" width="220" />
 				<span className="chartProjectName">{this.props.chartData.project_name.split(" ")[0]}</span>
 			</div>
 		);

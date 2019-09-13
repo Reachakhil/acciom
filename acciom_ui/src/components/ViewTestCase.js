@@ -247,7 +247,7 @@ class TestCaseDetails extends React.Component {
 										</tr>
 										<tr>
 											<td className="manageConnectionLabel"><label className="testViewDataLabel">Column:</label></td>
-											<td>{JSON.stringify(this.props.viewTestCase.column)}</td>
+											<td>{this.props.viewTestCase.column}</td>
 										</tr>
 										<tr>
 											<td className="manageConnectionLabel"><label className="testViewDataLabel">Source Query:</label></td>

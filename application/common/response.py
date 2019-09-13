@@ -5,6 +5,7 @@ STATUS_UNAUTHORIZED = 401
 STATUS_NOT_FOUND = 404
 STATUS_SERVER_ERROR = 500
 STATUS_CREATED = 201
+STATUS_CONFLICT = 409
 
 
 def api_response(success, message, http_status_code, data={}):

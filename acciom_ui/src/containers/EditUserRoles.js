@@ -171,9 +171,9 @@ class EditUserRoles extends Component {
 				element.push(
 					(<div class='footer'>
 						<Link to={`/user_management`}>
-							<Button type="button" bsStyle="primary">Back To User List</Button>
+							<Button type="button" className="userbackbtn" bsStyle="primary">Back To User List</Button>
 						</Link>
-						<Button type="button" bsStyle="primary" onClick={(e) => {this.onSaveUserRoles()}}>Save</Button>
+						<Button type="button" className="button-colors" bsStyle="primary" onClick={(e) => {this.onSaveUserRoles()}}>Save</Button>
 					</div>)
 				);
 			}
@@ -212,8 +212,8 @@ class EditUserRoles extends Component {
 	render() {
 		return (
 			<div id="editUserRoles">
-				<h3 className="editableHeader">Manage Role</h3>
-				<div className = "DescriptionHeader">Email</div>
+				<h3 className="usermanagetitle">Manage Role</h3>
+				<div className = "DescriptionHeader submailtitle">Email</div>
 				<input type="text" value={this.props.selectedUser? this.props.selectedUser.email_id: ''} className="Description" disabled/>
 
 				{ this.renderUserRoles() }

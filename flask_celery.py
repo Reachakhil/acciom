@@ -27,7 +27,6 @@ def check_job_status(job_id,user_id,celery_task_list):
         countdown=5)
     else:
         completed = check_complete(job_id)
-        # completed= True
         if completed:
             send_email(job_id, user_id)
         else:
@@ -81,4 +80,4 @@ def job_submit(job_id, user_id, send_email):
                                     user_id)
         celery_task_list.append(celery_task.task_id)
     if send_email == True:
-        check_job_status.apply_async((job_id,user_id,celery_task_list), countdown=2)
+        check_job_status.apply_async((job_id,user_id,celery_task_list), countdown=1)
