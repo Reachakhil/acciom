@@ -1613,6 +1613,14 @@ body,html{
     margin-left: 15px;
     color: #000 !important;
 }
-
-
-
+.table-row{
+    vertical-align:middle;
+    color: '#fff';
+}
+.tableCell{
+    white-space: nowrap !important;
+    max-width: 11vw !important;
+    overflow: hidden !important;
+    text-overflow:ellipsis !important;
+    cursor:pointer !important;
+}

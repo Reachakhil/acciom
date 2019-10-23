@@ -41,9 +41,6 @@ function TableHeader(props) {
                    
                      className="commonTableCellWidth"
                  >
-
-                    
-
                         {actionLabel}
                     </TableCell>
             </TableRow>

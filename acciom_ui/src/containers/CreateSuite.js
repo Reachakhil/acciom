@@ -1,9 +1,7 @@
     import React, { Component } from 'react'
     import { connect } from 'react-redux';
     import '../css/Db-ui-styles.css';
-    // import Button from '@material-ui/core/Button';
     import {Button} from 'react-bootstrap';
-
     import { Link } from 'react-router-dom';
 
     import { withStyles } from '@material-ui/core/styles';
@@ -32,6 +30,9 @@
     import { 
         getAllConnections
     } from '../actions/testSuiteListActions';
+
+    import Header from '../components/Table/SuiteTable/Header';
+    import Body from '../components/Table/SuiteTable/Body';
 
     const useStyles = theme => ({
         root: {
@@ -66,26 +67,6 @@
         minusbtn:{
             margin: theme.spacing(1),
             marginBottom:"40px"
-        },
-        but:{
-           
-            borderColor: '#BD4951 !important',
-            color: 'white',
-            fontSize: '13px',
-            borderRadius: '3px',
-            textAlign: 'center',
-            width:' 121px',
-            height:'31px',
-            marginTop:'10px',
-            "&:disabled": {
-                cursor: "not-allowed"
-              }
-        },
-        Backbut:{
-            backgroundColor: '#BD4951 !important',
-        },
-        Uploadbut:{
-            backgroundColor:'rgb(156, 157, 160);'
         },
         customWidth:{
             maxWidth: 500,
@@ -128,11 +109,9 @@
                     {label: 'Target query','required':false }
                 ]	
             };
-            console.log("datadata",data)
             this.onYesBtnClickHandler = this.onYesBtnClickHandler.bind(this)
             this.getConnectionData = this.getConnectionData.bind(this)
             this.baseState = this.state 
-
         }
         componentDidMount = () =>{
             this.props.getallClassNames()
@@ -172,22 +151,14 @@
     
             }
         }
-
-        switchstate =(index,v_index)=>{
-            this.setState({show_input:index+','+v_index});
-        }
-
-        splitAndMatch = (index,vIndex) => {
-            const selected = this.state.show_input.split(",");
-            return !(selected[0] == index && selected[1] == vIndex);
-        }
         onYesBtnClickHandler = (child_data) => {
             this.setState({showQueryModal:child_data})
         }
-
         handleChange = (e,index,col_event) =>{
             switch (col_event){
-                
+                case 1:
+                this.setState({suiteName:e.target.value})
+                break;
                 case 2:
                     const temp_SuiteData_desc = [...this.state.suiteData]
                     temp_SuiteData_desc[index]['test_description'] = e.target.value;
@@ -310,13 +281,13 @@
         renderData = (classes) =>{
             {
                 return this.state.suiteData.map((eachrow,index) =>(  
-                    <TableRow className="table-create-suite-row">
+                <TableRow className="table-create-suite-row">
                         {
                         <TableCell className="DropDown-SelectClass">
                                
                         <Select
                             style={{width:'10vw'}}
-                            value={this.state.suiteData[index]['test_case_class']}
+                            value={eachrow['test_case_class']}
                             onChange={(e)=>this.handleDBTypeChange(index,e) }> 
                             {this.showClass(this.props.classNameList,classes)}
                         </Select>
@@ -326,8 +297,7 @@
                         <TableCell className={classes.tablecell}>
                             <TextField autoFocus={true}
                             className={classes.textField}
-                            disabled={!this.state.suiteData[index]['test_case_class']}
-
+                            disabled={!eachrow['test_case_class']}
                              placeholder="description" value={eachrow.test_description}
                             onChange={()=> this.handleChange(event,index,2) }/>
                         </TableCell>}              
@@ -336,7 +306,7 @@
                         <Select
                         disabled={!this.state.suiteData[index]['test_case_class']}
                         style={{width:'10vw'}}
-                        value={this.state.suiteData[index]['source_db_existing_connection']}
+                        value={eachrow['source_db_existing_connection']}
                         onChange={ (e) => this.handleExistingDBTypeChange(index,e,3) }> 
                         {this.renderExistingDBTypes(this.props.allConnections,classes)}
                     </Select>
@@ -344,10 +314,10 @@
                         <TableCell>
                            
                             <Select
-                            disabled={!this.state.suiteData[index]['test_case_class']}
+                            disabled={!eachrow['test_case_class']}
 
                              style={{width:'10vw'}}
-                        value={this.state.suiteData[index]['target_db_existing_connection']}
+                        value={eachrow['target_db_existing_connection']}
                         onChange={ (e) => this.handleExistingDBTypeChange(index,e,4) }> 
                         {this.renderExistingDBTypes(this.props.allConnections,classes)}
                     </Select>
@@ -356,7 +326,7 @@
   
                         <TableCell  className={classes.tablecell}>
                             <TextField autoFocus={true} 
-                            disabled={!this.state.suiteData[index]['test_case_class']}
+                            disabled={!eachrow['test_case_class']}
                              value={eachrow.source_table} 
                             placeholder="source table"
                             error={(ISSPACE).test((eachrow.source_table).trim())}
@@ -369,14 +339,14 @@
                             <TextField autoFocus={true}
                             error={(ISSPACE).test((eachrow.target_table).trim())}
                             placeholder="target table"
-                            disabled={!this.state.suiteData[index]['test_case_class']}
+                            disabled={!eachrow['test_case_class']}
                             helperText={(ISSPACE).test((eachrow.target_table).trim())?"Table cannot have space":""}
                               value={eachrow.target_table}
                             onChange={()=> this.handleChange(event,index,6)}  />
                         </TableCell>
                         <TableCell className={classes.tablecell}>
                             <TextField autoFocus={true}  placeholder="column" value={eachrow.columns}
-                            disabled={!this.state.suiteData[index]['test_case_class']}
+                            disabled={!eachrow['test_case_class']}
                             onChange={()=> this.handleChange(event,index,7)} />
                         </TableCell>           
                         
@@ -426,9 +396,7 @@
         },()=>{
         })
         }
-        handleSuiteNameChange = (e)=>{
-            this.setState({suiteName:e.target.value})
-        }
+
         SuiteNameValid (){
         return (this.state.suiteName == '')? true:false
         }
@@ -455,23 +423,13 @@
                 temp_obj['target_db_existing_connection'] == "" ? delete(temp_obj['target_db_existing_connection']):temp_obj['target_db_existing_connection']
                 delete(temp_obj.type)
                 delete(temp_obj.index)
-                temp_SuiteData.push(temp_obj)
-                
+                temp_SuiteData.push(temp_obj) 
             })
             const UploadBody = {}
             UploadBody.suite_name=this.state.suiteName
             UploadBody.project_id = this.props.currentProject.project_id
             UploadBody.test_case_detail = temp_SuiteData
             this.props.SubmitTestSuiteData(JSON.stringify(UploadBody))
-        }
-        showHeader = (classes) =>{
-            let test =[];
-            test=this.state.Headers.map((item,key)=>{
-            return(
-            !item.required?<TableCell className={classes.tablecell}>{item.label}</TableCell>:
-            <TableCell className={classes.tablecell}>{item.label}<span className="mandatory">*</span></TableCell>
-            )})
-            return test
         }
         checkNameAlreadyExist = (testSuites,displayName) => {
 			let isNameAlreadyExist = false;
@@ -489,9 +447,7 @@
         const showAddBtn = !this.ValidRows()
         let testSuites = this.props.testSuites;
         this.isNameAlreadyExist = this.checkNameAlreadyExist(testSuites,this.state.suiteName);
-
             const { classes } = this.props;
-            
             return(
                 <div className="AddSuiteLayout">
                     <i class="fa fa-th fa-lg" aria-hidden="true"></i>
@@ -499,21 +455,26 @@
                     <span style={{display:'block'}}><TextField style={{width:"250px"}} 
                      error={this.isNameAlreadyExist}
                      helperText={this.isNameAlreadyExist?"Suite Name already Exists":""}
-                    type="textbox" onChange={()=> this.handleSuiteNameChange(event) } placeholder="&nbsp;Enter SuiteName"/></span>
+                    type="textbox" onChange={()=> this.handleChange(event,0,1) } placeholder="&nbsp;Enter SuiteName"/></span>
                     <span style={{display:'inline'}}><Link to="/view_suites"><Button className="button-create back-btn" bsStyle="primary"> Back</Button></Link></span>
                     <span style={{marginLeft:"5px",display:'inline'}}><Button className="button-create" bsStyle="primary" disabled={checkValid} onClick={ () => this.handleTestSuiteUploadClick()}> Create Suite</Button></span>
+
                     <Paper className={classes.root}>
                         <Table className={classes.table}>
-                            <TableHead className={classes.tablehead}>
-                            <TableRow>
-                                {this.showHeader(classes)}
-                            </TableRow>
-                            </TableHead>
-                            <TableBody className="table_body-new-suite">
+                        <Header
+                        classNameList={classes}
+                        headerData={this.state.Headers}
+                        />
+                          
+                        {/* <Body 
+                        BodyData={this.state.suiteData}
+                        /> */}
+                          <TableBody className="table_body-new-suite">
                                 {this.renderData( classes )}
                             </TableBody>
                         </Table>
                     </Paper>
+
                     <div>
                             <IconButton disabled={showAddBtn} onClick={() => this.addRow()} >
                                 <PlusCircle  />
@@ -529,11 +490,8 @@
                             </QueryModal>:null
                         }
                     </div>
-
                 </div>
-                
             )}}
-
 
     const mapStateToProps = (state) => {
         return {
@@ -545,7 +503,6 @@
             allConnections : state.testSuites.connectionsList && 
             state.testSuites.connectionsList.allConnections? state.testSuites.connectionsList.allConnections : [],
             testSuites: state.testSuites.testSuiteList? state.testSuites.testSuiteList: [],
-
         };
     };
     const mapDispatchToProps = dispatch => ({

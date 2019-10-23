@@ -19,8 +19,6 @@ function TableListBody(props) {
              .map((item,index) => {
                let currentIndex =rowsPerPage*page+index;
                     const currentlyEditing =editIdx===currentIndex
-                  
-                  
                     return(
                 <TableRow  tabIndex={-1} key={index} >
                     { headers.map(header => {
