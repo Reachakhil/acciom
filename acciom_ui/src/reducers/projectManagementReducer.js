@@ -10,14 +10,7 @@ export const roleTypes = {
 	NEW: 'NEW' 
 };
 const initialState = {
-    projectUserList:[],
-	orgUserList: [],
-	orgProjectRolesList: {},
-	userOrgRoleList: [],
-	userProjectRoleList: [],
-	userNewRoleList: [],
-	selectedUser: null,
-	redirectToUserMgmtHome: false,
+	projectUserList:[],
 	refreshProjectDetails:false
 };
 const projectManagementData = (state = initialState, action) => {

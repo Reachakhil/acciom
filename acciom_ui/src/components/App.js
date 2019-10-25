@@ -22,6 +22,7 @@ import UserProfile from '../containers/UserProfile';
 
 import ProjectManagement from '../containers/ProjectManagement';
 import ManageUserRole from './ManageUserRole'
+import OrganizationManagement from '../containers/OrganizationManagement';
 
 
 const RootContainer = styled.div`
@@ -72,7 +73,7 @@ const App = (props) => (
 				<PrivateRoute path="/access_token" authTokenExpired={props.authTokenExpired} component={AuthToken} />
 				<PrivateRoute path="/user_management" authTokenExpired={props.authTokenExpired} component={UserManagement} />
 				<PrivateRoute path="/projects" authTokenExpired={props.authTokenExpired} component={ProjectManagement} />
-				<PrivateRoute path="/organization" authTokenExpired={props.authTokenExpired} component={ProjectManagement} />
+			    <PrivateRoute path="/organization" authTokenExpired={props.authTokenExpired} component={OrganizationManagement} />
 				<PrivateRoute path="/edit_user_role/:id" authTokenExpired={props.authTokenExpired} component={EditUserRoles} />
 				<PrivateRoute path="/edit_test_case/:suite_id" authTokenExpired={props.authTokenExpired} component={EditTestCase} /> 
 				<PrivateRoute path="/create_suite" authTokenExpired={props.authTokenExpired} component={CreateSuite} /> 

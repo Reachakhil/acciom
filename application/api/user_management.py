@@ -18,7 +18,7 @@ from application.common.utils import generate_hash
 from application.helper.permission_check import (check_valid_id_passed_by_user,
                                                  check_permission)
 from application.model.models import (UserOrgRole, UserProjectRole, User,
-                                      Project, Role, Session)
+                                      Project, Role, Session, Permission)
 from index import db
 
 
@@ -447,8 +447,8 @@ class UserProfileAPI(Resource):
         """
 
         user_parser = reqparse.RequestParser(bundle_errors=True)
-        user_parser.add_argument('first_name', type=str)
-        user_parser.add_argument('last_name', type=str)
+        user_parser.add_argument('first_name', type=str, location='json')
+        user_parser.add_argument('last_name', type=str, location='json')
         user_details = user_parser.parse_args()
         for key, value in dict(user_details).items():
             if value == None:
@@ -514,3 +514,28 @@ class DefaultProjectOrg(Resource):
         current_user_obj.save_to_db()
         return api_response(
             True, APIMessages.SET_SUCCESS, STATUS_CREATED)
+
+
+class PermissionDetail(Resource):
+    """ API to handle GET call for getting all permission names."""
+
+    @token_required
+    def get(self, session):
+        """
+        Method to return all permission names.
+
+        Args:
+            session (object): Session Object
+
+        Returns: Standard API Response with message(returns message saying
+        success), data and http status code.
+        """
+        # TODO : Add Check Permission and give proper permissions.
+        permission_dict = {}
+        all_permissions = db.session.query(
+            Permission.permission_name).distinct().all()
+        permission_list = [permission for permission, in all_permissions]
+        permission_dict["permissions"] = permission_list
+        return api_response(True,
+                            APIMessages.SUCCESS,
+                            STATUS_CREATED, permission_dict)

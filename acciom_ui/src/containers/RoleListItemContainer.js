@@ -88,8 +88,8 @@ class RoleListItemContainer extends Component {
 	render() {
 		const styles = {
 			option: (styles, state) => ({
-			  ...styles,
-			  color: state.isSelected ? "black" : null
+			...styles,
+			color: state.isSelected ? "black" : null
 			})
 		};
 

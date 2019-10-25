@@ -73,13 +73,13 @@ class OrganizationAPI(Resource):
         update_org_parser = reqparse.RequestParser(bundle_errors=True)
         update_org_parser.add_argument(
             'org_id', help=APIMessages.PARSER_MESSAGE,
-            required=True, type=int)
+            required=True, type=int, location='json')
         update_org_parser.add_argument(
             'org_name', help=APIMessages.PARSER_MESSAGE,
-            required=True, type=str)
+            required=True, type=str, location='json')
         update_org_parser.add_argument(
             'org_description', help=APIMessages.PARSER_MESSAGE,
-            required=True, type=str)
+            required=True, type=str, location='json')
 
         update_org_data = update_org_parser.parse_args()
         user_obj = User.query.filter_by(user_id=session.user_id,

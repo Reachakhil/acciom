@@ -36,26 +36,14 @@ export const getOrganizationUsersList = (orgId) => {
 		})
 	};	
 };	
-// export const addOrganizationUsersList = (id) => {
-	
-// 	return {
-// 		type: GET_ORGANIZATION_USER_LIST_ADD,
-// 		value:id	
-		
-// 	}
-	
-// };
 
 export const deleteUsersFromTable=(id)=>{
-	
-
 	return{
 		type:DELETE_USERS_FROM_TABLE,
 		value:id,
 		
 	}
 };
-
 
 export const getRolesByOrgId = (orgId, key) => {
 	return {
@@ -117,7 +105,6 @@ export const updateUserRoles = (body) => {
 };
 
 export const addUsersRole = (body) => {
-
 	return {
 		types: [
 			'',

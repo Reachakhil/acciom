@@ -133,6 +133,9 @@ class APIMessages:
     SET_SUCCESS = "Default Organization and Project set Successfully"
     PASS_FIRST_NAME = "Please Pass First Name"
     PASS_LAST_NAME = "Please Pass Last Name"
+    ROLE_NAME_CANNOT_BLANK = "Role Name cannot be Blank"
+    ROLE_DESCRIPTION_CANNOT_BLANK = "Role Description cannot be Blank"
+    ROLE_UPDATED = "Role Updtaed Successfully"
 
 
 class GenericStrings:

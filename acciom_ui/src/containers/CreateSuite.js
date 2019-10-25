@@ -32,7 +32,7 @@
     } from '../actions/testSuiteListActions';
 
     import Header from '../components/Table/SuiteTable/Header';
-    import Body from '../components/Table/SuiteTable/Body';
+    import BodyTable from '../components/Table/SuiteTable/BodyTable';
 
     const useStyles = theme => ({
         root: {
@@ -298,7 +298,7 @@
                             <TextField autoFocus={true}
                             className={classes.textField}
                             disabled={!eachrow['test_case_class']}
-                             placeholder="description" value={eachrow.test_description}
+                            placeholder="description" value={eachrow.test_description}
                             onChange={()=> this.handleChange(event,index,2) }/>
                         </TableCell>}              
                         <TableCell >
@@ -327,14 +327,14 @@
                         <TableCell  className={classes.tablecell}>
                             <TextField autoFocus={true} 
                             disabled={!eachrow['test_case_class']}
-                             value={eachrow.source_table} 
+                            value={eachrow.source_table} 
                             placeholder="source table"
                             error={(ISSPACE).test((eachrow.source_table).trim())}
                             helperText={(ISSPACE).test((eachrow.source_table).trim())?"Table cannot have space":""}
                             onChange={()=> this.handleChange(event,index,5)}  />
                         </TableCell>  
                         
-                        
+
                         <TableCell className={classes.tablecell}>
                             <TextField autoFocus={true}
                             error={(ISSPACE).test((eachrow.target_table).trim())}
@@ -414,7 +414,6 @@
         checkValidTable = (item) =>{
             return (((ISSPACE).test(item.source_table)) || ((ISSPACE).test(item.target_table)) )
         }
-        
         handleTestSuiteUploadClick = () =>{
             const temp_SuiteData=[]
             this.state.suiteData.map((item,key)=>{
@@ -465,13 +464,16 @@
                         classNameList={classes}
                         headerData={this.state.Headers}
                         />
-                          
-                        {/* <Body 
-                        BodyData={this.state.suiteData}
-                        /> */}
-                          <TableBody className="table_body-new-suite">
+                        
+                        <BodyTable 
+                            BodyData={this.state.suiteData}
+
+                        />
+
+
+                          {/* <TableBody className="table_body-new-suite">
                                 {this.renderData( classes )}
-                            </TableBody>
+                            </TableBody> */}
                         </Table>
                     </Paper>
 

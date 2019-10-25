@@ -97,14 +97,16 @@ class Role(db.Model):
     org_id = db.Column(db.ForeignKey('organization.org_id'), nullable=False,
                        index=True)
     role_name = db.Column(db.String(50), nullable=False)
+    description = db.Column(db.Text, nullable=True)
     owner_id = db.Column(db.ForeignKey('user.user_id'), nullable=False)
     created_at = db.Column(db.DateTime, default=datetime.now)
     modified_at = db.Column(db.DateTime, default=datetime.now)
 
-    def __init__(self, role_name, org_id, owner_id):
+    def __init__(self, role_name, org_id, owner_id, description):
         self.role_name = role_name
         self.org_id = org_id
         self.owner_id = owner_id
+        self.description = description
 
     def save_to_db(self):
         db.session.add(self)

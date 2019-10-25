@@ -1,11 +1,11 @@
 import React from "react";
 import {Button, Modal} from 'react-bootstrap';
 import { TextField } from '@material-ui/core';
-import { DELETE, ADD, PROJNAME, PROJDESC, PROJNAMEINFO, PROJDESCINFO, TOOLTIP_TITLE, TOOLTIP_DESC, TEXTBOX_NAME,TEXTBOX_DESC, PROJECTS,DELETEMSG, TITLE, ORJDESC, ORGNAME, DELETEORG, ADDORGANIZATION, ADDPROJECT } from "../../constants/FieldNameConstants";
+import { DELETE, ADD, PROJNAME, PROJDESC, PROJNAMEINFO, PROJDESCINFO, TOOLTIP_TITLE, TOOLTIP_DESC, PRJ_TEXTBOX_NAME,PRJ_TEXTBOX_DESC, PROJECTS,DELETEMSG, TITLE, ORJDESC, ORGNAME, DELETEORG, ADDORGANIZATION, ADDPROJECT, ORG_TEXTBOX_NAME, ORG_TEXTBOX_DESC } from "../../constants/FieldNameConstants";
 
 const customModal =(props)=>{
 
-    const { projectNameAdd,projectDescriptionAdd,variant,projectDescription,onYesBtnClicked,onCancelBtnClicked,onNoBtnClicked,onSaveBtnClicked,currentPage,validateFields } = props;
+    const { projectNameAdd,projectDescriptionAdd,variant,onYesBtnClicked,onCancelBtnClicked,onNoBtnClicked,onSaveBtnClicked,currentPage,validateFields,organizationNameAdd,organizationDescriptionAdd } = props;
   
     let projectNameValue =(   
  
@@ -15,8 +15,8 @@ const customModal =(props)=>{
         margin="normal"
         style ={{marginLeft:'20px',marginTop:'11px'}}
         onChange ={props.onTextFieldHandler}
-        value ={projectNameAdd}
-        name={TEXTBOX_NAME}
+        value ={currentPage===PROJECTS?projectNameAdd:organizationNameAdd}
+        name={currentPage===PROJECTS?PRJ_TEXTBOX_NAME:ORG_TEXTBOX_NAME}
         autoFocus 
       />
   
@@ -30,9 +30,9 @@ const customModal =(props)=>{
         style ={{marginLeft:'20px',marginTop:'11px'}}
         margin="normal"
         onChange ={props.onTextFieldHandler}
-        name={TEXTBOX_DESC}
-        value ={projectDescriptionAdd}
-       
+        name={currentPage===PROJECTS?PRJ_TEXTBOX_DESC:ORG_TEXTBOX_DESC}
+        value ={currentPage===PROJECTS?projectDescriptionAdd:organizationDescriptionAdd}
+    
       />
      
        

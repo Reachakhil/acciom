@@ -166,8 +166,6 @@ body,html{
     border: none;
 }
 
-
-
 #dashbcolor{
     color: #fff !important;
     margin-left: 0px;
@@ -600,10 +598,10 @@ body,html{
 .button-colors{
     background-color: #BD4951 !important;
     border-color: #BD4951 !important;
-    color: #fff;
-    font-size: 13px;
+    color: #fff !important;
+    font-size: 13px !important;
     border-radius: 3px;
-    text-align: center;
+    text-align: center !important;
     width: 121px;
     height: 31px;
 }
@@ -1513,6 +1511,7 @@ body,html{
     text-align: center;
     width: 127px;
     height: 31px;
+    margin-top: -33px;
 }
 
 .mandatory{
@@ -1523,26 +1522,40 @@ body,html{
     margin-bottom: 35px;
 }
 .userAccount{
-    position:absolute;
-    margin-left: 2px;
-}
-.user_profile_heading{
-    margin-left: 35px;
-    font-size: 35px;
+    margin-left: -5px;
+    margin-top: -12px;
     color: #69717D;
-    font-weight: bold;
 }
+
+.userProfileTitle{
+    margin-bottom: 12px;
+    margin-left: 5px;
+}
+
 .upload_user_picture{
-  margin-top: 23px;
+    margin-top: 23px;
 }
-.set_default_organization{
-    margin-top: 20px;
-    margin-left: 8px;
-}
+
 .select_organization_default{
-    width:290px;
-    margin-left: 8px;
+    width:260px;
+    margin-left: 10px;
+    color: #69717D !important;
 }
+
+.select_Project_default{
+    margin-left: 25px;
+    width: 204%;
+    color: #69717D !important;
+}
+
+.userProfileProjectLabel{
+    margin-top: 40px;
+    margin-left: 25px;
+    color: #69717D;
+    font-weight: 300;
+    font-size: 13px;
+}
+
 .userProfileFname{
     padding-left: 231px;
     padding-top: 21px;
@@ -1551,14 +1564,7 @@ body,html{
     font-family: Open sans;
     font-weight: 500 ;
 }
-.userProfileLname{
-    padding-left: 231px;
-    padding-top: 21px;
-    color: #69717D;
-    font-size: 21px;
-    font-family: Open sans;
-    font-weight: 500 ;
-}
+
 .userProfileEmail{
     padding-left: 231px;
     padding-top: 21px;
@@ -1567,19 +1573,36 @@ body,html{
     font-family: Open sans;
     font-weight: 500 ;
 }
-.userProfileFnameLabel{
-    width: 544px;
-    padding-left: 90px;
+
+.userProfileLabel{
+    margin-top: 40px;
+    margin-left: 10px;
+    color: #69717D;
+    font-weight: 300;
+    font-size: 13px;
 }
-.userProfileLnameLabel{
-    width: 544px;
-    margin-left: 188px;
-    padding-left: 100px;
+
+.userProfileFname{
+    width: 126% !important;
+    margin-left: 10px !important;
 }
-.userProfileEmailLabel{
-    width: 544px;
-    margin-left: 188px;
+
+.userProfileLname{
+    margin-left: 89px !important;
+    width: 100% !important;
 }
+
+.userProfileEmail{
+    margin-left: 150px !important;
+    width: 75% !important;
+}
+
+.userSubmitButton{
+    margin-left: 93px !important;
+    margin-top: 25px!important;
+    text-transform: none !important;
+}
+
 .border_user_profile{
     margin-left:150px;
     margin-right: 50px;
@@ -1590,6 +1613,14 @@ body,html{
 .submit_button_user_profile{
     margin-left: 789px;
     margin-top: 20px;
+}
+
+.UserProfilePaper{
+    margin-top: 9px;
+    width: 107%;
+    padding-left: 10px;
+    padding-bottom: 61px;
+    padding-top: 15px;
 }
 
 .addUserPaper{

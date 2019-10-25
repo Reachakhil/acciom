@@ -26,7 +26,8 @@ from application.api.testsuite import (TestSuiteAPI, TestCaseLogDetail,
                                        AddTestSuiteManually,
                                        CreateNewTestSuite)
 from application.api.user_management import (UserAPI, UserRoleAPI,
-                                             UserProfileAPI, DefaultProjectOrg)
+                                             UserProfileAPI, DefaultProjectOrg,
+                                             PermissionDetail)
 from application.common.common_exception import (UnauthorizedException,
                                                  ResourceNotAvailableException,
                                                  GenericBadRequestException,
@@ -145,3 +146,4 @@ api.add_resource(QueryExporter, '/api/query-exporter')
 api.add_resource(SupportedTestClasses, '/api/supported-test-class-type')
 api.add_resource(UserProfileAPI, '/api/user-profile')
 api.add_resource(DefaultProjectOrg, '/api/default-project-org')
+api.add_resource(PermissionDetail, '/api/permission')

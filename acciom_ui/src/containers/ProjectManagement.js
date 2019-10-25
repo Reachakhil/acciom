@@ -10,7 +10,7 @@ import Clear from '@material-ui/icons/Clear';
 import CustomTable from '../components/Table/CustomTable'
 import CustomModal from '../components/CommonModal/CustomModal';
 import {getProjectList,updateProjectList,deleteProjectDetails,addToProjectList} from '../actions/projectManagementActions';
-import { PROJECTS, ORGANIZATION, PROJECTNAME, PROJECTDESCRIPTION, PROJNAME, DESCRIPTION, SMALL, ACTION, ADDPROJECT, ADDORGANIZATION, DELETEMSG, TITLE, DELETE, PROJECTITLE, PROJECTDESC, ADD, TEXTBOX_NAME, TEXTBOX_DESC} from '../constants/FieldNameConstants';
+import { PROJECTS, ORGANIZATION, PROJECTNAME, PROJECTDESCRIPTION, PROJNAME, DESCRIPTION, SMALL, ACTION, ADDPROJECT, ADDORGANIZATION, DELETEMSG, TITLE, DELETE, ADD, PROJDESCTEXT, PROJNAMETEXT, PRJ_TEXTBOX_NAME, PRJ_TEXTBOX_DESC} from '../constants/FieldNameConstants';
 import { Button,Modal} from 'react-bootstrap';
 import { toast } from 'react-toastify';
 
@@ -64,7 +64,10 @@ class ProjectManagement extends Component {
 			const localProjectList = [...this.state.projectList];
 		
 			this.setState({projectName:localProjectList[index].project_name});
+			this.setState({projectNameInitialValue:localProjectList[index].project_name});
 			this.setState({projectDescription:localProjectList[index].project_description});
+			this.setState({projectDescriptionInitialValue:localProjectList[index].project_description});
+		
 		}
 
 		saveDataHandler=(index)=>{	
@@ -81,14 +84,44 @@ class ProjectManagement extends Component {
 				project_description:localProjectListHandler[index].project_description,
 				project_id:localProjectListHandler[index].project_id
 			};
+			if(localProjectListHandler[index].project_description.length ==0){
+			
+				toast.error(PROJDESCTEXT);
+			
+				
+			}
+			else 
+			if(localProjectListHandler[index].project_name.length ==0){
+				toast.error(PROJNAMETEXT);
+				
+			}
+			
 	if(localProjectListHandler[index].project_name.length >0 && localProjectListHandler[index].project_description.length>0){
 		this.props.updateProjectList(JSON.stringify(upDateProjectDetails));
 		this.setState({editIdx:-1});
+		
 	}
+	
+	
+	
 	 			
 		}
 
-		clearDataHandler = () =>{
+		clearDataHandler = (index) =>{
+			const clearProjectListHandler = [...this.state.projectList];
+    
+			clearProjectListHandler[index].project_name = this.state.projectName;
+			clearProjectListHandler[index].project_description = this.state.projectDescription;
+		  
+			if(clearProjectListHandler[index].project_description.length ==0){
+				clearProjectListHandler[index].project_description=this.state.projectDescriptionInitialValue;
+				this.setState({organizationDescription:clearProjectListHandler[index].project_description});
+			}
+		  if(clearProjectListHandler[index].project_name.length ==0){
+			clearProjectListHandler[index].project_name=this.state.projectNameInitialValue;
+			this.setState({organizationName: clearProjectListHandler[index].project_name})
+	
+		  }
 
 			this.setState({editIdx:-1});	
 		}
@@ -142,20 +175,17 @@ class ProjectManagement extends Component {
 			
 
 			}
-				       
-				
-			
-	
+
 		}
 		textFieldHandler=()=>{
-  
-			if(event.target.name ===TEXTBOX_NAME){
+			
+            if(event.target.name ===PRJ_TEXTBOX_NAME){
 			
 			 this.setState({projectNameAdd:event.target.value})
 		
 			}
 			
-		   else if(event.target.name ===TEXTBOX_DESC){
+		   else if(event.target.name ===PRJ_TEXTBOX_DESC){
 		
 			this.setState({projectDescriptionAdd:event.target.value})
 		
@@ -208,6 +238,8 @@ class ProjectManagement extends Component {
 			  projectDescription:'',
 			  projectNameAdd:'',
 			  projectDescriptionAdd:'',
+			  projectDescriptionInitialValue:'',
+			  projectNameInitialValue:''
 
 			
 		};
@@ -261,7 +293,7 @@ class ProjectManagement extends Component {
 						  <Clear
 						   fontSize={SMALL}
 						   style={{color:"#696969",marginRight:'8px'}} 
-						   onClick={()=>this.clearDataHandler()}/>
+						   onClick={()=>this.clearDataHandler(index)}/>
 						</Fragment>
 
 					)
@@ -331,7 +363,6 @@ const mapStateToProps = (state) => {
 	return {
 		currentOrg: state.appData.currentOrg,
 		projectUserList:state.projectManagementData.projectUserList,
-		isOrganisationInitialised: state.appData.isOrganisationInitialised,
 		refreshProjectDetails:state.projectManagementData.refreshProjectDetails
 	};
 };
