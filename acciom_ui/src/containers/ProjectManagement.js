@@ -67,7 +67,6 @@ class ProjectManagement extends Component {
 			this.setState({projectNameInitialValue:localProjectList[index].project_name});
 			this.setState({projectDescription:localProjectList[index].project_description});
 			this.setState({projectDescriptionInitialValue:localProjectList[index].project_description});
-		
 		}
 
 		saveDataHandler=(index)=>{	
@@ -85,10 +84,7 @@ class ProjectManagement extends Component {
 				project_id:localProjectListHandler[index].project_id
 			};
 			if(localProjectListHandler[index].project_description.length ==0){
-			
-				toast.error(PROJDESCTEXT);
-			
-				
+				toast.error(PROJDESCTEXT);	
 			}
 			else 
 			if(localProjectListHandler[index].project_name.length ==0){
@@ -98,13 +94,8 @@ class ProjectManagement extends Component {
 			
 	if(localProjectListHandler[index].project_name.length >0 && localProjectListHandler[index].project_description.length>0){
 		this.props.updateProjectList(JSON.stringify(upDateProjectDetails));
-		this.setState({editIdx:-1});
-		
-	}
-	
-	
-	
-	 			
+		this.setState({editIdx:-1});	
+	}	
 		}
 
 		clearDataHandler = (index) =>{

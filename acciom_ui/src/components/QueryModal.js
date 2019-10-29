@@ -18,17 +18,14 @@ componentDidMount() {
     console.log(this.props.connectionDetail)
     this.setState({
         "query":this.props.connectionDetail.Query,
-       
         "type":this.props.connectionDetail.type,
         "index":this.props.connectionDetail.index
     })
 }
 handleInputChange = ({target}) =>{
     const { value} = target;
-        this.setState({query:value})
-        
+        this.setState({query:value}) 
     }
-
 
 onYesBtnClickHandlers = () =>{
     this.props.onYesBtnClickHandler(false)

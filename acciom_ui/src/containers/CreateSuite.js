@@ -7,9 +7,7 @@
     import { withStyles } from '@material-ui/core/styles';
     import PropTypes from 'prop-types';
     import Table from '@material-ui/core/Table';
-    import TableBody from '@material-ui/core/TableBody';
     import TableCell from '@material-ui/core/TableCell';
-    import TableHead from '@material-ui/core/TableHead';
     import TableRow from '@material-ui/core/TableRow';
     import Paper from '@material-ui/core/Paper';
     import { TextField } from '@material-ui/core';
@@ -111,6 +109,7 @@
             };
             this.onYesBtnClickHandler = this.onYesBtnClickHandler.bind(this)
             this.getConnectionData = this.getConnectionData.bind(this)
+            this.handleChangeWrap = this.handleChangeWrap.bind(this)
             this.baseState = this.state 
         }
         componentDidMount = () =>{
@@ -153,6 +152,9 @@
         }
         onYesBtnClickHandler = (child_data) => {
             this.setState({showQueryModal:child_data})
+        }
+        handleChangeWrap(child_data){
+            console.log(child_data)
         }
         handleChange = (e,index,col_event) =>{
             switch (col_event){
@@ -323,7 +325,6 @@
                     </Select>
                         </TableCell>        
                         
-  
                         <TableCell  className={classes.tablecell}>
                             <TextField autoFocus={true} 
                             disabled={!eachrow['test_case_class']}
@@ -467,10 +468,9 @@
                         
                         <BodyTable 
                             BodyData={this.state.suiteData}
-
+                            showClass ={this.showClass(this.props.classNameList,classes)}
+                            handleChangeWrap = {this.handleChangeWrap}
                         />
-
-
                           {/* <TableBody className="table_body-new-suite">
                                 {this.renderData( classes )}
                             </TableBody> */}
